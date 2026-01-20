@@ -3,132 +3,703 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Privozzz — Ремонт квартир</title>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta name="description" content="Privozzz — чистый ремонт квартир в Краснодаре. Скандинавский подход: минимум стресса, максимум качества. Гарантия 5 лет.">
+    <title>Privozzz — Чистый ремонт квартир в Краснодаре</title>
+    <link rel="icon" href="/favicon.ico?v=2">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com"></script>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: { DEFAULT: '#0f766e', light: '#14b8a6', dark: '#0d5c56' },
+                        accent: { DEFAULT: '#f59e0b', light: '#fbbf24' }
+                    },
+                    fontFamily: {
+                        sans: ['DM Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
     <style>
-        :root { --primary: #0f766e; --accent: #f59e0b; }
         body { font-family: 'DM Sans', sans-serif; }
-        .text-primary { color: var(--primary); }
-        .bg-primary { background-color: var(--primary); }
-        .text-accent { color: var(--accent); }
-        .bg-accent { background-color: var(--accent); }
+
+        /* Smooth scroll */
+        html { scroll-behavior: smooth; }
+
+        /* Minimal scrollbar */
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #0f766e; border-radius: 2px; }
+
+        /* Reveal animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Horizontal scroll */
+        .horizontal-scroll {
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+        }
+        .horizontal-scroll::-webkit-scrollbar { display: none; }
+        .scroll-item { scroll-snap-align: start; }
+
+        /* Hover line effect */
+        .hover-line {
+            position: relative;
+        }
+        .hover-line::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 1px;
+            background: currentColor;
+            transition: width 0.3s ease;
+        }
+        .hover-line:hover::after {
+            width: 100%;
+        }
+
+        /* Card hover */
+        .minimal-card {
+            transition: all 0.4s ease;
+        }
+        .minimal-card:hover {
+            transform: translateY(-4px);
+        }
+
+        /* Mobile menu */
+        .mobile-nav {
+            transform: translateY(-100%);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .mobile-nav.active {
+            transform: translateY(0);
+        }
+
+        /* Process line */
+        .process-line {
+            background: linear-gradient(90deg, #0f766e 0%, #14b8a6 100%);
+        }
+
+        /* Image zoom */
+        .img-zoom {
+            overflow: hidden;
+        }
+        .img-zoom img {
+            transition: transform 0.6s ease;
+        }
+        .img-zoom:hover img {
+            transform: scale(1.05);
+        }
+
+        /* Marquee */
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-marquee {
+            animation: marquee 30s linear infinite;
+        }
+
+        /* Pulse dot */
+        .pulse-dot {
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
     </style>
 </head>
-<body class="bg-white text-gray-900">
-    <!-- Minimal Header: Just logo and phone -->
-    <header class="py-6">
-        <div class="max-w-5xl mx-auto px-6 flex justify-between items-center">
-            <span class="text-xl font-bold">Privozzz</span>
-            <a href="tel:79183317099" class="text-gray-500 hover:text-primary">+7 (918) 331-70-99</a>
+<body class="bg-white text-gray-900 antialiased">
+
+    <!-- ============================================ -->
+    <!-- HEADER -->
+    <!-- ============================================ -->
+    <header class="fixed w-full bg-white/90 backdrop-blur-sm z-50 border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2">
+                    <div class="w-2 h-2 bg-primary rounded-full pulse-dot"></div>
+                    <span class="text-lg font-semibold tracking-tight">Privozzz</span>
+                </a>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="#services" class="text-gray-500 hover:text-primary hover-line transition text-sm">Услуги</a>
+                    <a href="#works" class="text-gray-500 hover:text-primary hover-line transition text-sm">Работы</a>
+                    <a href="#process" class="text-gray-500 hover:text-primary hover-line transition text-sm">Процесс</a>
+                    <a href="#contact" class="text-gray-500 hover:text-primary hover-line transition text-sm">Контакт</a>
+                </nav>
+
+                <!-- Phone -->
+                <div class="hidden md:flex items-center gap-4">
+                    <a href="tel:+79183317099" class="text-sm text-gray-900 font-medium">
+                        +7 (918) 331-70-99
+                    </a>
+                </div>
+
+                <!-- Mobile toggle -->
+                <button class="md:hidden p-2" onclick="toggleNav()">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Nav -->
+        <div class="mobile-nav fixed inset-x-0 top-16 bg-white border-b border-gray-100 md:hidden" id="mobile-nav">
+            <nav class="p-6 space-y-4">
+                <a href="#services" onclick="toggleNav()" class="block text-lg">Услуги</a>
+                <a href="#works" onclick="toggleNav()" class="block text-lg">Работы</a>
+                <a href="#process" onclick="toggleNav()" class="block text-lg">Процесс</a>
+                <a href="#contact" onclick="toggleNav()" class="block text-lg">Контакт</a>
+                <div class="pt-4 border-t border-gray-100">
+                    <a href="tel:+79183317099" class="text-primary font-medium">+7 (918) 331-70-99</a>
+                </div>
+            </nav>
         </div>
     </header>
 
-    <!-- Hero: Centered, no image -->
-    <section class="py-24 md:py-32">
-        <div class="max-w-3xl mx-auto px-6 text-center">
-            <p class="text-accent uppercase tracking-widest text-sm mb-6">12 лет опыта</p>
-            <h1 class="text-4xl md:text-6xl font-bold mb-8 leading-tight">
-                Качественный ремонт квартир
-            </h1>
-            <p class="text-xl text-gray-500 mb-12 max-w-2xl mx-auto">
-                От дизайн-проекта до финальной уборки. Работаем по договору с гарантией.
+    <!-- ============================================ -->
+    <!-- HERO -->
+    <!-- ============================================ -->
+    <section class="min-h-screen flex items-center pt-16">
+        <div class="max-w-6xl mx-auto px-6 py-20 md:py-32">
+            <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+                <!-- Text -->
+                <div class="reveal">
+                    <div class="flex items-center gap-2 text-primary text-sm font-medium mb-6">
+                        <span class="w-8 h-px bg-primary"></span>
+                        8 лет безупречной работы
+                    </div>
+
+                    <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 tracking-tight">
+                        Ремонт, который
+                        <span class="text-primary">вдохновляет</span>
+                    </h1>
+
+                    <p class="text-gray-500 text-lg md:text-xl leading-relaxed mb-8 max-w-md">
+                        Создаём пространства для жизни. Никаких сюрпризов — только качество и честные цены.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="https://wa.me/79183317099" class="inline-flex items-center justify-center gap-2 bg-primary hover:bg-primary-dark text-white px-8 py-4 rounded-full font-medium transition">
+                            Обсудить проект
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </a>
+                        <a href="#works" class="inline-flex items-center justify-center gap-2 text-gray-900 hover:text-primary px-8 py-4 font-medium transition">
+                            Смотреть работы
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Image -->
+                <div class="reveal lg:justify-self-end" style="transition-delay: 0.2s;">
+                    <div class="relative">
+                        <div class="img-zoom rounded-2xl overflow-hidden">
+                            <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600"
+                                 alt="Современный интерьер"
+                                 class="w-full aspect-[4/5] object-cover">
+                        </div>
+                        <!-- Floating card -->
+                        <div class="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-lg p-4 border border-gray-100">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-accent/10 rounded-full flex items-center justify-center">
+                                    <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <p class="font-semibold text-gray-900">350+</p>
+                                    <p class="text-xs text-gray-500">завершённых проектов</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- STATS -->
+    <!-- ============================================ -->
+    <section class="py-12 border-y border-gray-100">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid grid-cols-3 divide-x divide-gray-100">
+                <div class="text-center py-4 reveal">
+                    <p class="text-3xl md:text-4xl font-bold text-primary">8</p>
+                    <p class="text-sm text-gray-500 mt-1">лет опыта</p>
+                </div>
+                <div class="text-center py-4 reveal" style="transition-delay: 0.1s;">
+                    <p class="text-3xl md:text-4xl font-bold text-primary">350+</p>
+                    <p class="text-sm text-gray-500 mt-1">объектов</p>
+                </div>
+                <div class="text-center py-4 reveal" style="transition-delay: 0.2s;">
+                    <p class="text-3xl md:text-4xl font-bold text-primary">98%</p>
+                    <p class="text-sm text-gray-500 mt-1">довольных</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- SERVICES -->
+    <!-- ============================================ -->
+    <section id="services" class="py-20 md:py-32">
+        <div class="max-w-6xl mx-auto px-6">
+            <!-- Header -->
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-16 reveal">
+                <div>
+                    <p class="text-primary text-sm font-medium mb-2">Услуги</p>
+                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Что мы делаем</h2>
+                </div>
+                <p class="text-gray-500 max-w-md">
+                    Три варианта ремонта — от быстрого обновления до полного преображения
+                </p>
+            </div>
+
+            <!-- Services grid -->
+            <div class="grid md:grid-cols-3 gap-6">
+                <!-- Service 1 -->
+                <div class="minimal-card group p-8 border border-gray-100 rounded-2xl hover:border-primary/20 reveal">
+                    <div class="flex items-center justify-between mb-8">
+                        <span class="text-5xl font-bold text-gray-100 group-hover:text-primary/10 transition">01</span>
+                        <div class="w-10 h-10 border border-gray-200 rounded-full flex items-center justify-center group-hover:border-primary group-hover:bg-primary transition">
+                            <svg class="w-4 h-4 text-gray-400 group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Косметический</h3>
+                    <p class="text-gray-500 text-sm mb-6">Быстрое обновление без капитальных работ</p>
+                    <div class="flex items-center justify-between pt-6 border-t border-gray-100">
+                        <span class="text-primary font-semibold">от 3 500 ₽/м²</span>
+                        <span class="text-gray-400 text-sm">2-3 недели</span>
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="minimal-card group p-8 border border-primary/20 bg-primary/5 rounded-2xl reveal" style="transition-delay: 0.1s;">
+                    <div class="flex items-center justify-between mb-8">
+                        <span class="text-5xl font-bold text-primary/20">02</span>
+                        <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <div class="inline-block bg-accent text-white text-xs font-medium px-2 py-1 rounded mb-4">Популярно</div>
+                    <h3 class="text-xl font-bold mb-2">Капитальный</h3>
+                    <p class="text-gray-500 text-sm mb-6">Полная переделка с заменой всех коммуникаций</p>
+                    <div class="flex items-center justify-between pt-6 border-t border-primary/10">
+                        <span class="text-primary font-semibold">от 7 500 ₽/м²</span>
+                        <span class="text-gray-400 text-sm">2-3 месяца</span>
+                    </div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="minimal-card group p-8 border border-gray-100 rounded-2xl hover:border-primary/20 reveal" style="transition-delay: 0.2s;">
+                    <div class="flex items-center justify-between mb-8">
+                        <span class="text-5xl font-bold text-gray-100 group-hover:text-primary/10 transition">03</span>
+                        <div class="w-10 h-10 border border-gray-200 rounded-full flex items-center justify-center group-hover:border-primary group-hover:bg-primary transition">
+                            <svg class="w-4 h-4 text-gray-400 group-hover:text-white transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                            </svg>
+                        </div>
+                    </div>
+                    <h3 class="text-xl font-bold mb-2">Под ключ</h3>
+                    <p class="text-gray-500 text-sm mb-6">От пустых стен до полностью готовой квартиры</p>
+                    <div class="flex items-center justify-between pt-6 border-t border-gray-100">
+                        <span class="text-primary font-semibold">от 11 000 ₽/м²</span>
+                        <span class="text-gray-400 text-sm">3-4 месяца</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- WORKS (Horizontal Scroll) -->
+    <!-- ============================================ -->
+    <section id="works" class="py-20 md:py-32 bg-gray-50">
+        <div class="max-w-6xl mx-auto px-6 mb-12 reveal">
+            <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+                <div>
+                    <p class="text-primary text-sm font-medium mb-2">Портфолио</p>
+                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Наши работы</h2>
+                </div>
+                <a href="https://wa.me/79183317099?text=Хочу%20посмотреть%20больше%20работ"
+                   class="inline-flex items-center gap-2 text-primary font-medium hover-line">
+                    Все проекты
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                </a>
+            </div>
+        </div>
+
+        <!-- Horizontal scroll gallery -->
+        <div class="horizontal-scroll flex gap-6 px-6 pb-4 reveal">
+            <!-- Work 1 -->
+            <div class="scroll-item flex-shrink-0 w-80 md:w-96">
+                <div class="img-zoom rounded-2xl overflow-hidden mb-4">
+                    <img src="https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=500"
+                         alt="Проект 1" class="w-full aspect-[4/3] object-cover">
+                </div>
+                <h3 class="font-semibold mb-1">Студия в ЖК Солнечный</h3>
+                <p class="text-sm text-gray-500">42 м² · Капитальный ремонт</p>
+            </div>
+
+            <!-- Work 2 -->
+            <div class="scroll-item flex-shrink-0 w-80 md:w-96">
+                <div class="img-zoom rounded-2xl overflow-hidden mb-4">
+                    <img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?w=500"
+                         alt="Проект 2" class="w-full aspect-[4/3] object-cover">
+                </div>
+                <h3 class="font-semibold mb-1">Двушка на Красной</h3>
+                <p class="text-sm text-gray-500">65 м² · Ремонт под ключ</p>
+            </div>
+
+            <!-- Work 3 -->
+            <div class="scroll-item flex-shrink-0 w-80 md:w-96">
+                <div class="img-zoom rounded-2xl overflow-hidden mb-4">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=500"
+                         alt="Проект 3" class="w-full aspect-[4/3] object-cover">
+                </div>
+                <h3 class="font-semibold mb-1">Трёшка в центре</h3>
+                <p class="text-sm text-gray-500">95 м² · Дизайнерский ремонт</p>
+            </div>
+
+            <!-- Work 4 -->
+            <div class="scroll-item flex-shrink-0 w-80 md:w-96">
+                <div class="img-zoom rounded-2xl overflow-hidden mb-4">
+                    <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=500"
+                         alt="Проект 4" class="w-full aspect-[4/3] object-cover">
+                </div>
+                <h3 class="font-semibold mb-1">Квартира в новостройке</h3>
+                <p class="text-sm text-gray-500">78 м² · Под ключ</p>
+            </div>
+
+            <!-- Spacer -->
+            <div class="flex-shrink-0 w-6"></div>
+        </div>
+
+        <div class="text-center mt-8 text-sm text-gray-400">
+            ← Листайте для просмотра →
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- PROCESS -->
+    <!-- ============================================ -->
+    <section id="process" class="py-20 md:py-32">
+        <div class="max-w-6xl mx-auto px-6">
+            <!-- Header -->
+            <div class="text-center mb-16 reveal">
+                <p class="text-primary text-sm font-medium mb-2">Процесс</p>
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">Как мы работаем</h2>
+                <p class="text-gray-500 max-w-lg mx-auto">Простой и понятный путь от звонка до новоселья</p>
+            </div>
+
+            <!-- Timeline -->
+            <div class="relative reveal">
+                <!-- Line -->
+                <div class="hidden md:block absolute top-8 left-0 right-0 h-0.5 process-line"></div>
+
+                <div class="grid md:grid-cols-5 gap-8">
+                    <!-- Step 1 -->
+                    <div class="text-center relative">
+                        <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4 relative z-10">
+                            1
+                        </div>
+                        <h3 class="font-semibold mb-2">Звонок</h3>
+                        <p class="text-sm text-gray-500">Обсуждаем задачу и назначаем встречу</p>
+                    </div>
+
+                    <!-- Step 2 -->
+                    <div class="text-center relative">
+                        <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4 relative z-10">
+                            2
+                        </div>
+                        <h3 class="font-semibold mb-2">Замер</h3>
+                        <p class="text-sm text-gray-500">Бесплатно выезжаем и считаем смету</p>
+                    </div>
+
+                    <!-- Step 3 -->
+                    <div class="text-center relative">
+                        <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4 relative z-10">
+                            3
+                        </div>
+                        <h3 class="font-semibold mb-2">Договор</h3>
+                        <p class="text-sm text-gray-500">Фиксируем цену и сроки официально</p>
+                    </div>
+
+                    <!-- Step 4 -->
+                    <div class="text-center relative">
+                        <div class="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4 relative z-10">
+                            4
+                        </div>
+                        <h3 class="font-semibold mb-2">Ремонт</h3>
+                        <p class="text-sm text-gray-500">Работаем с ежедневными отчётами</p>
+                    </div>
+
+                    <!-- Step 5 -->
+                    <div class="text-center relative">
+                        <div class="w-16 h-16 bg-accent text-white rounded-full flex items-center justify-center mx-auto mb-4 relative z-10">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                            </svg>
+                        </div>
+                        <h3 class="font-semibold mb-2">Готово!</h3>
+                        <p class="text-sm text-gray-500">Принимаете работу с гарантией 5 лет</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- BENEFITS -->
+    <!-- ============================================ -->
+    <section class="py-20 md:py-32 bg-primary text-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-12 lg:gap-20 items-center">
+                <!-- Text -->
+                <div class="reveal">
+                    <p class="text-primary-light text-sm font-medium mb-2">Почему мы</p>
+                    <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-8">Чистый подход к ремонту</h2>
+
+                    <div class="space-y-6">
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold mb-1">Прозрачные цены</h3>
+                                <p class="text-white/60 text-sm">Детальная смета до копейки. Цена в договоре — финальная.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold mb-1">Точные сроки</h3>
+                                <p class="text-white/60 text-sm">Дата сдачи в договоре. За просрочку платим неустойку.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold mb-1">Гарантия 5 лет</h3>
+                                <p class="text-white/60 text-sm">Полная гарантия на все работы. Проблемы исправим бесплатно.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex gap-4">
+                            <div class="w-10 h-10 border border-white/20 rounded-full flex items-center justify-center flex-shrink-0">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z"/>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                </svg>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold mb-1">Фотоотчёты</h3>
+                                <p class="text-white/60 text-sm">Каждый день отправляем фото и видео прогресса.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image -->
+                <div class="reveal" style="transition-delay: 0.2s;">
+                    <div class="relative">
+                        <img src="https://images.unsplash.com/photo-1600566752229-250ed79470f8?w=600"
+                             alt="Процесс работы"
+                             class="rounded-2xl w-full aspect-square object-cover">
+                        <div class="absolute -bottom-4 -right-4 bg-accent text-white px-6 py-3 rounded-xl font-semibold">
+                            98% довольных клиентов
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- REVIEWS -->
+    <!-- ============================================ -->
+    <section class="py-20 md:py-32">
+        <div class="max-w-6xl mx-auto px-6">
+            <!-- Header -->
+            <div class="text-center mb-16 reveal">
+                <p class="text-primary text-sm font-medium mb-2">Отзывы</p>
+                <h2 class="text-3xl md:text-4xl font-bold tracking-tight">Что говорят клиенты</h2>
+            </div>
+
+            <!-- Reviews -->
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Review 1 -->
+                <div class="p-8 bg-gray-50 rounded-2xl reveal">
+                    <div class="flex gap-1 mb-4">
+                        <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    </div>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        "Идеальный ремонт. Минимум стресса, максимум результата. Всё чисто и аккуратно. Ребята работают как швейцарские часы."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-primary rounded-full flex items-center justify-center text-white font-medium">А</div>
+                        <div>
+                            <p class="font-semibold">Анна М.</p>
+                            <p class="text-sm text-gray-500">Студия 38 м²</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="p-8 bg-gray-50 rounded-2xl reveal" style="transition-delay: 0.1s;">
+                    <div class="flex gap-1 mb-4">
+                        <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                        <svg class="w-5 h-5 text-accent" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    </div>
+                    <p class="text-gray-600 mb-6 leading-relaxed">
+                        "Профессионалы. Сделали точно в срок, смета не изменилась ни на рубль. Буду рекомендовать всем знакомым."
+                    </p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-accent rounded-full flex items-center justify-center text-white font-medium">С</div>
+                        <div>
+                            <p class="font-semibold">Сергей В.</p>
+                            <p class="text-sm text-gray-500">Двушка 65 м²</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================ -->
+    <!-- CTA -->
+    <!-- ============================================ -->
+    <section id="contact" class="py-20 md:py-32 bg-gray-50">
+        <div class="max-w-3xl mx-auto px-6 text-center reveal">
+            <p class="text-primary text-sm font-medium mb-2">Начнём?</p>
+            <h2 class="text-3xl md:text-4xl font-bold tracking-tight mb-4">Обсудим ваш проект</h2>
+            <p class="text-gray-500 mb-8 max-w-lg mx-auto">
+                Напишите нам в WhatsApp — ответим за 5 минут и бесплатно рассчитаем стоимость
             </p>
-            <a href="https://wa.me/79183317099" class="inline-block bg-primary text-white px-10 py-4 rounded-full font-medium hover:opacity-90 transition">
-                Обсудить проект →
-            </a>
-        </div>
-    </section>
 
-    <!-- Stats: Horizontal line -->
-    <section class="border-y border-gray-200">
-        <div class="max-w-5xl mx-auto px-6 py-12 grid grid-cols-3 divide-x divide-gray-200">
-            
-            <div class="text-center px-4">
-                <div class="text-3xl font-bold text-primary">8</div>
-                <div class="text-gray-500 text-sm mt-1">лет опыта</div>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="https://wa.me/79183317099?text=Здравствуйте!%20Хочу%20обсудить%20ремонт"
+                   class="inline-flex items-center justify-center gap-3 bg-green-500 hover:bg-green-600 text-white px-8 py-4 rounded-full font-medium transition">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    Написать в WhatsApp
+                </a>
+                <a href="tel:+79183317099"
+                   class="inline-flex items-center justify-center gap-2 border border-gray-300 hover:border-primary text-gray-900 hover:text-primary px-8 py-4 rounded-full font-medium transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/>
+                    </svg>
+                    Позвонить
+                </a>
             </div>
-            
-            <div class="text-center px-4">
-                <div class="text-3xl font-bold text-primary">350+</div>
-                <div class="text-gray-500 text-sm mt-1">объектов</div>
-            </div>
-            
-            <div class="text-center px-4">
-                <div class="text-3xl font-bold text-primary">98%</div>
-                <div class="text-gray-500 text-sm mt-1">довольных клиентов</div>
-            </div>
-            
-        </div>
-    </section>
 
-    <!-- Benefits: 2 columns, icon left -->
-    <section class="py-24">
-        <div class="max-w-4xl mx-auto px-6">
-            <h2 class="text-3xl font-bold text-center mb-16">Как мы работаем</h2>
-            <div class="space-y-12">
-                <div class="flex gap-8 items-start">
-                    <div class="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span class="text-accent font-bold">01</span>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2">Бесплатный замер</h3>
-                        <p class="text-gray-500">Выезжаем на объект, делаем замеры и обсуждаем ваши пожелания</p>
-                    </div>
-                </div>
-                <div class="flex gap-8 items-start">
-                    <div class="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span class="text-accent font-bold">02</span>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2">Детальная смета</h3>
-                        <p class="text-gray-500">Составляем прозрачную смету с фиксированными ценами</p>
-                    </div>
-                </div>
-                <div class="flex gap-8 items-start">
-                    <div class="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span class="text-accent font-bold">03</span>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-semibold mb-2">Качественный ремонт</h3>
-                        <p class="text-gray-500">Выполняем работы точно в срок с гарантией 5 лет</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Quote section -->
-    <section class="py-24 bg-gray-50">
-        <div class="max-w-3xl mx-auto px-6 text-center">
-            <svg class="w-12 h-12 text-accent/30 mx-auto mb-8" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z"/>
-            </svg>
-            <p class="text-2xl text-gray-700 mb-8 leading-relaxed">
-                "Сделали ремонт точно в срок. Очень доволен результатом и профессиональным подходом команды."
+            <p class="text-sm text-gray-400 mt-8">
+                +7 (918) 331-70-99 · Краснодар · Ежедневно 9:00 — 21:00
             </p>
-            <p class="text-gray-500">— Довольный клиент</p>
         </div>
     </section>
 
-    <!-- CTA: Simple -->
-    <section class="py-24">
-        <div class="max-w-xl mx-auto px-6 text-center">
-            <h2 class="text-3xl font-bold mb-6">Готовы обсудить проект?</h2>
-            <p class="text-gray-500 mb-8">Напишите нам в WhatsApp — ответим в течение 15 минут</p>
-            <a href="https://wa.me/79183317099" class="inline-flex items-center gap-3 bg-green-500 text-white px-8 py-4 rounded-full font-medium hover:bg-green-600 transition">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                Написать в WhatsApp
-            </a>
-        </div>
-    </section>
-
-    <!-- Footer: Minimal -->
-    <footer class="py-8 border-t border-gray-200">
-        <div class="max-w-5xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-4 text-gray-500 text-sm">
-            <span>© Privozzz, Краснодар</span>
-            <a href="tel:79183317099">+7 (918) 331-70-99</a>
+    <!-- ============================================ -->
+    <!-- FOOTER -->
+    <!-- ============================================ -->
+    <footer class="py-8 border-t border-gray-100">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                    <div class="w-2 h-2 bg-primary rounded-full"></div>
+                    <span class="font-semibold">Privozzz</span>
+                </div>
+                <p class="text-sm text-gray-500">© 2026 · Чистый ремонт в Краснодаре</p>
+            </div>
         </div>
     </footer>
+
+    <!-- ============================================ -->
+    <!-- WHATSAPP BUTTON -->
+    <!-- ============================================ -->
+    <a href="https://wa.me/79183317099"
+       class="fixed bottom-6 right-6 w-14 h-14 bg-green-500 rounded-full flex items-center justify-center shadow-lg hover:bg-green-600 hover:scale-110 transition-all z-40">
+        <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    </a>
+
+    <!-- ============================================ -->
+    <!-- SCRIPTS -->
+    <!-- ============================================ -->
+    <script>
+        // Mobile nav toggle
+        function toggleNav() {
+            document.getElementById('mobile-nav').classList.toggle('active');
+        }
+
+        // Reveal on scroll
+        function reveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(el => {
+                const windowHeight = window.innerHeight;
+                const elementTop = el.getBoundingClientRect().top;
+                const elementVisible = 100;
+
+                if (elementTop < windowHeight - elementVisible) {
+                    el.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', reveal);
+        window.addEventListener('load', reveal);
+    </script>
 </body>
 </html>
