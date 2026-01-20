@@ -35,7 +35,7 @@ def requires_auth(f):
     return decorated
 
 # PostgreSQL (Railway) или SQLite (локально)
-DATABASE_URL = os.environ.get('DATABASE_URL', 'sqlite:///leads.db')
+DATABASE_URL = os.environ.get('DATABASE_URL', 'sqlite:///data/leads.db')
 if DATABASE_URL.startswith('postgres://'):
     DATABASE_URL = DATABASE_URL.replace('postgres://', 'postgresql://', 1)
 

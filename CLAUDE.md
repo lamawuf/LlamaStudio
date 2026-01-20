@@ -1,61 +1,52 @@
-# LlamaStudio — Инструкции для Claude
+# LlamaStudio
 
-## Что это
-Бизнес по продаже сайтов для малого бизнеса (ремонтники, автосервисы и тд).
+Бизнес по продаже сайтов для малого бизнеса.
 
-## Структура проекта
+## When to Read
 
-```
-/LlamaStudio/
-├── crm/           # CRM система (Flask + SQLite/PostgreSQL)
-│   ├── app.py     # Главный файл CRM
-│   ├── farmer.py  # Парсер лидов из 2ГИС
-│   └── leads.db   # База лидов
-├── templates/     # Шаблоны сайтов
-│   ├── base/      # Базовые шаблоны
-│   └── portfolio/ # Портфолио для показа
-├── scripts/       # Скрипты продаж
-│   ├── sales_script.md    # Скрипт холодных звонков
-│   ├── seo_script.md      # SEO чеклист
-│   └── call_flow.mermaid  # Визуальная схема
-├── tools/         # Инструменты автоматизации
-└── docs/          # Документация
-```
-
-## Ключевые файлы
-
-| Файл | Описание |
+| Need | Document |
 |------|----------|
-| `crm/app.py` | CRM для управления лидами |
-| `scripts/sales_script.md` | Скрипт холодных продаж |
-| `scripts/seo_script.md` | Чеклист SEO оптимизации |
-| `TODO.md` | Общий список задач |
+| Create new site | `.agents/reference/templates.md` |
+| CRM, parse leads | `.agents/reference/crm.md` |
+| Outreach messages | `.agents/reference/sales.md` |
+| Pricing, business | `.agents/reference/pricing.md` |
+| Skills (commands) | `.claude/project.skills.md` |
 
-## Ценообразование
+## Structure
 
-- Сайт: 5,000₽ (2500 предоплата + 2500 после)
-- Хостинг: 1,500₽/год
-- Домен: ~300₽/год
-- Срок: 1 день
+```
+LlamaStudio/
+├── crm/                    # CRM app + lead farming
+│   ├── app.py              # Flask app (Railway deploy)
+│   ├── farmer.py           # 2GIS parser
+│   └── data/leads.db       # SQLite database
+├── sales/                  # Outreach generator
+├── templates/              # Site templates
+│   ├── base/               # Raw themes (7)
+│   └── portfolio/          # Live examples (8)
+├── scripts/                # Sales scripts
+└── docs/                   # Plans, architecture
+```
 
-## Целевые клиенты
+## Quick Reference
 
-- Ремонт квартир
-- Автосервисы
-- Салоны красоты
-- Стоматологии
+- **Price**: 5,000₽ (50% prepay)
+- **Timeline**: 1 day
+- **Cities**: Краснодар, Москва, Сочи
+- **Niches**: Ремонт, потолки, авто, красота
 
-## Города
+## Portfolio URLs
 
-Краснодар, Москва, Сочи, Ростов-на-Дону
-
-## Важно
-
-- SEO под Яндекс (не Google — не работает без VPN в РФ)
-- Шаблоны + персонализация под клиента
-- Отправка примеров через WhatsApp
-- Быстрая сдача — 1 день с нейросетями
+| Site | URL |
+|------|-----|
+| site1 | privozzz-remont.vercel.app |
+| site2 | site2-remont.vercel.app |
+| site3 | site3-remont.vercel.app |
+| site4 | site4-remont.vercel.app |
+| site5 | site5-remont.vercel.app |
+| site6 | site6-remont.vercel.app |
+| multipage | tech-komfort.vercel.app |
 
 ---
 
-*Создано: 2026-01-20*
+*Updated: 2026-01-20*
