@@ -75,6 +75,7 @@ class Lead(db.Model):
 
     notes = db.Column(db.Text)
     result = db.Column(db.String(50))
+    contact_phone = db.Column(db.String(50))  # Номер ЛПР/начальника
 
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     updated_at = db.Column(db.DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
@@ -170,6 +171,7 @@ def get_leads():
         'status': l.status,
         'notes': l.notes,
         'result': l.result,
+        'contact_phone': l.contact_phone,
         'created_at': l.created_at.isoformat() if l.created_at else None,
         'called_at': l.called_at.isoformat() if l.called_at else None,
     } for l in leads])
@@ -205,6 +207,9 @@ def update_lead(lead_id):
 
     if 'result' in data:
         lead.result = data['result']
+
+    if 'contact_phone' in data:
+        lead.contact_phone = data['contact_phone']
 
     db.session.commit()
     return jsonify({'success': True})

@@ -182,6 +182,12 @@
                 </select>
             </div>
 
+            <div class="mb-4">
+                <label class="block text-gray-400 text-sm mb-2">Контакт ЛПР (начальник)</label>
+                <input type="tel" id="modal-contact-phone" placeholder="+7..."
+                    class="bg-dark-700 border border-dark-600 rounded-lg px-4 py-2 w-full focus:outline-none focus:border-purple-500">
+            </div>
+
             <div class="mb-6">
                 <label class="block text-gray-400 text-sm mb-2">Заметки</label>
                 <textarea id="modal-notes" rows="3" class="bg-dark-700 border border-dark-600 rounded-lg px-4 py-2 w-full resize-none"></textarea>
@@ -287,9 +293,9 @@
                         </select>
                     </td>
                     <td class="p-4">
-                        <button onclick="openModal(${lead.id}, '${lead.status}', '${lead.result || ''}', '${(lead.notes || '').replace(/'/g, "\\'")}')"
+                        <button onclick="openModal(${lead.id}, '${lead.status}', '${lead.result || ''}', '${(lead.notes || '').replace(/'/g, "\\'")}', '${lead.contact_phone || ''}')"
                             class="bg-dark-600 hover:bg-dark-500 px-3 py-1 rounded text-sm transition-colors">
-                            Заметки
+                            ${lead.contact_phone ? '📞 ' : ''}Заметки
                         </button>
                     </td>
                 </tr>
@@ -358,11 +364,12 @@
         }
 
         // Modal
-        function openModal(id, status, result, notes) {
+        function openModal(id, status, result, notes, contactPhone) {
             document.getElementById('modal-lead-id').value = id;
             document.getElementById('modal-status').value = status;
             document.getElementById('modal-result').value = result;
             document.getElementById('modal-notes').value = notes;
+            document.getElementById('modal-contact-phone').value = contactPhone || '';
             document.getElementById('modal').classList.remove('hidden');
             document.getElementById('modal').classList.add('flex');
         }
@@ -377,11 +384,12 @@
             const status = document.getElementById('modal-status').value;
             const result = document.getElementById('modal-result').value;
             const notes = document.getElementById('modal-notes').value;
+            const contactPhone = document.getElementById('modal-contact-phone').value;
 
             await fetch(`/api/leads/${id}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ status, result, notes })
+                body: JSON.stringify({ status, result, notes, contact_phone: contactPhone })
             });
 
             closeModal();
