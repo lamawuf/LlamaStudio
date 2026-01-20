@@ -1,0 +1,10 @@
+{
+  "company": "Грани",
+  "template": "corporate",
+  "template_description": "Классический корпоративный",
+  "colors": {
+    "primary": "#1e3a5f",
+    "accent": "#c9a86c"
+  },
+  "phone": "+7 (918) 104-05-32"
+}

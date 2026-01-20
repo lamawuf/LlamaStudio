@@ -1,0 +1,10 @@
+{
+  "company": "Privozzz",
+  "template": "minimal",
+  "template_description": "Минималистичный чистый",
+  "colors": {
+    "primary": "#0f766e",
+    "accent": "#f59e0b"
+  },
+  "phone": "+7 (918) 331-70-99"
+}

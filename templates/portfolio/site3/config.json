@@ -1,0 +1,10 @@
+{
+  "company": "Строительно-ремонтная фирма",
+  "template": "bold",
+  "template_description": "Смелый динамичный",
+  "colors": {
+    "primary": "#7c3aed",
+    "accent": "#22d3ee"
+  },
+  "phone": "+7 (953) 080-67-69"
+}

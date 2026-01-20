@@ -1,0 +1,10 @@
+{
+  "company": "Триумф-Юг",
+  "template": "dark",
+  "template_description": "Тёмный технологичный",
+  "colors": {
+    "primary": "#0a0a0a",
+    "accent": "#10b981"
+  },
+  "phone": "+7 (989) 230-02-43"
+}

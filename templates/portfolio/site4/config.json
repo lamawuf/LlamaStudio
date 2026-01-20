@@ -1,0 +1,10 @@
+{
+  "company": "Комфорт сервис",
+  "template": "premium",
+  "template_description": "Премиальный элегантный",
+  "colors": {
+    "primary": "#78350f",
+    "accent": "#b45309"
+  },
+  "phone": "+7 (995) 226-21-99"
+}

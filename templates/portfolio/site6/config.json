@@ -1,0 +1,10 @@
+{
+  "company": "3D.Buro",
+  "template": "warm",
+  "template_description": "Тёплый дружелюбный",
+  "colors": {
+    "primary": "#b91c1c",
+    "accent": "#f97316"
+  },
+  "phone": "+7 (995) 340-67-19"
+}
