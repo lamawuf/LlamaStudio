@@ -338,19 +338,18 @@
             loadLeads();
         }
 
-        // Quick status update from dropdown
+        // Quick status update from dropdown - БЕЗ перезагрузки
         async function quickUpdateStatus(leadId, newStatus, selectEl) {
-            await fetch(`/api/leads/${leadId}`, {
+            // Сразу меняем цвет
+            selectEl.className = `status-select status-${newStatus} border-0 text-white`;
+
+            // Отправляем на сервер
+            fetch(`/api/leads/${leadId}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ status: newStatus })
             });
-            // Только обновляем статистику, список остаётся на месте
-            loadStats();
-            // Обновляем цвет dropdown
-            if (selectEl) {
-                selectEl.className = `status-select status-${newStatus} border-0 text-white`;
-            }
+            // Ничего не перезагружаем - строка остаётся на месте
         }
 
         function formatSocials(social, phones) {
