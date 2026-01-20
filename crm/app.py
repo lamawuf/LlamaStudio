@@ -98,7 +98,11 @@ class LeadHistory(db.Model):
 @app.route('/')
 @requires_auth
 def index():
-    return render_template('index.html')
+    response = app.make_response(render_template('index.html'))
+    response.headers['Cache-Control'] = 'no-cache, no-store, must-revalidate'
+    response.headers['Pragma'] = 'no-cache'
+    response.headers['Expires'] = '0'
+    return response
 
 @app.route('/api/stats')
 @requires_auth
