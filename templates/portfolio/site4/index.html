@@ -3,144 +3,872 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Комфорт сервис — Премиальный ремонт квартир</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+    <title>Комфорт Сервис | Премиальный ремонт квартир в Краснодаре</title>
+    <link rel="icon" href="/favicon.ico?v=2">
+    <meta name="description" content="Искусство создавать дом. Премиальный ремонт квартир в Краснодаре. Индивидуальный дизайн, безупречное качество, гарантия 5 лет.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
-        :root { --primary: #78350f; --accent: #b45309; }
-        body { font-family: 'Lato', sans-serif; font-weight: 300; }
-        .font-display { font-family: 'Cormorant Garamond', serif; }
-        .text-primary { color: var(--primary); }
-        .bg-primary { background-color: var(--primary); }
-        .text-accent { color: var(--accent); }
-        .bg-accent { background-color: var(--accent); }
-        .border-primary { border-color: var(--primary); }
+        :root {
+            --primary: #78350f;
+            --primary-light: #92400e;
+            --accent: #b45309;
+            --gold: #d4af37;
+            --text: #292524;
+            --text-light: #78716c;
+            --bg: #faf9f7;
+            --bg-cream: #f5f0e8;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            font-weight: 300;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        .font-display {
+            font-family: 'Cormorant Garamond', serif;
+            font-weight: 500;
+        }
+
+        .font-display-italic {
+            font-family: 'Cormorant Garamond', serif;
+            font-style: italic;
+        }
+
+        /* Elegant line decoration */
+        .line-decoration::before {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 1px;
+            background: var(--gold);
+            margin-bottom: 1.5rem;
+        }
+
+        .line-decoration-center::before {
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(30px);
+            transition: all 1s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        /* Elegant button */
+        .btn-elegant {
+            position: relative;
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            text-transform: uppercase;
+            letter-spacing: 0.2em;
+            font-size: 0.75rem;
+            font-weight: 400;
+            transition: all 0.4s ease;
+            overflow: hidden;
+        }
+        .btn-elegant::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: var(--primary);
+            transition: left 0.4s ease;
+            z-index: -1;
+        }
+        .btn-elegant:hover {
+            color: white;
+        }
+        .btn-elegant:hover::before {
+            left: 0;
+        }
+
+        /* Service card */
+        .service-card {
+            position: relative;
+            padding: 2.5rem;
+            background: white;
+            transition: all 0.4s ease;
+        }
+        .service-card::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 2.5rem;
+            right: 2.5rem;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .service-card:hover {
+            box-shadow: 0 20px 40px rgba(120, 53, 15, 0.08);
+        }
+        .service-card:hover::after {
+            opacity: 1;
+        }
+
+        /* Portfolio item */
+        .portfolio-item {
+            position: relative;
+            overflow: hidden;
+        }
+        .portfolio-item img {
+            transition: transform 0.8s ease;
+        }
+        .portfolio-item:hover img {
+            transform: scale(1.05);
+        }
+        .portfolio-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(28, 25, 23, 0.9), transparent 60%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .portfolio-item:hover .portfolio-overlay {
+            opacity: 1;
+        }
+
+        /* FAQ accordion */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+        }
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.4s ease;
+        }
+        .mobile-menu.open {
+            transform: translateX(0);
+        }
+
+        /* Ornament */
+        .ornament {
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+        }
+
+        /* Counter animation */
+        @keyframes countUp {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Scroll indicator */
+        .scroll-indicator {
+            animation: bounce 2s infinite;
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(10px); }
+            60% { transform: translateY(5px); }
+        }
     </style>
 </head>
-<body class="bg-stone-50 text-stone-800">
-    <!-- Header: Elegant centered -->
-    <header class="py-8 border-b border-stone-200">
+<body>
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-[#faf9f7]/95 backdrop-blur-sm">
         <div class="max-w-6xl mx-auto px-6">
-            <div class="text-center mb-4">
-                <span class="font-display text-3xl text-primary">Комфорт сервис</span>
+            <div class="flex justify-between items-center py-6">
+                <!-- Logo -->
+                <a href="#" class="font-display text-2xl text-[#78350f]">Комфорт Сервис</a>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex items-center gap-10">
+                    <a href="#services" class="text-xs uppercase tracking-[0.2em] text-[#78716c] hover:text-[#78350f] transition">Услуги</a>
+                    <a href="#portfolio" class="text-xs uppercase tracking-[0.2em] text-[#78716c] hover:text-[#78350f] transition">Портфолио</a>
+                    <a href="#process" class="text-xs uppercase tracking-[0.2em] text-[#78716c] hover:text-[#78350f] transition">Процесс</a>
+                    <a href="#contact" class="text-xs uppercase tracking-[0.2em] text-[#78716c] hover:text-[#78350f] transition">Контакты</a>
+                </nav>
+
+                <!-- Phone -->
+                <a href="tel:79952262199" class="hidden md:block text-sm text-[#78350f]">+7 (995) 226-21-99</a>
+
+                <!-- Mobile Menu Button -->
+                <button id="menuBtn" class="md:hidden w-8 h-8 flex flex-col justify-center items-center gap-1.5">
+                    <span class="w-6 h-px bg-[#78350f] transition-all"></span>
+                    <span class="w-6 h-px bg-[#78350f] transition-all"></span>
+                </button>
             </div>
-            <nav class="flex justify-center gap-12 text-sm uppercase tracking-widest text-stone-500">
-                <a href="#about" class="hover:text-primary transition">О нас</a>
-                <a href="#services" class="hover:text-primary transition">Услуги</a>
-                <a href="#contacts" class="hover:text-primary transition">Контакты</a>
-            </nav>
         </div>
     </header>
 
-    <!-- Hero: Split 50/50 -->
-    <section class="grid md:grid-cols-2 min-h-[80vh]">
-        <div class="flex items-center justify-center p-12 md:p-20">
-            <div class="max-w-md">
-                <p class="text-accent uppercase tracking-[0.3em] text-xs mb-8">Работаем без предоплаты</p>
-                <h1 class="font-display text-4xl md:text-5xl lg:text-6xl text-primary mb-8 leading-tight">
-                    Профессиональный ремонт
-                </h1>
-                <p class="text-stone-500 text-lg mb-10 leading-relaxed">Берём на себя все заботы: от закупки материалов до вывоза мусора.</p>
-                <a href="https://wa.me/79952262199" class="inline-block border-2 border-primary text-primary px-10 py-4 uppercase tracking-widest text-sm hover:bg-primary hover:text-white transition">
-                    Связаться с нами
-                </a>
-            </div>
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu fixed inset-0 z-40 bg-[#faf9f7] pt-24">
+        <div class="flex flex-col items-center gap-8 p-8">
+            <a href="#services" class="font-display text-2xl text-[#78350f]" onclick="closeMobileMenu()">Услуги</a>
+            <a href="#portfolio" class="font-display text-2xl text-[#78350f]" onclick="closeMobileMenu()">Портфолио</a>
+            <a href="#process" class="font-display text-2xl text-[#78350f]" onclick="closeMobileMenu()">Процесс</a>
+            <a href="#contact" class="font-display text-2xl text-[#78350f]" onclick="closeMobileMenu()">Контакты</a>
+            <div class="ornament mt-8"></div>
+            <a href="tel:79952262199" class="text-[#b45309] mt-4">+7 (995) 226-21-99</a>
         </div>
-        <div class="bg-primary/5 flex items-center justify-center">
-            <div class="w-48 h-48 border-2 border-primary/20 rounded-full flex items-center justify-center">
-                <svg class="w-24 h-24 text-primary/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
-                </svg>
+    </div>
+
+    <!-- Hero -->
+    <section class="min-h-screen flex items-center pt-20">
+        <div class="max-w-6xl mx-auto px-6 w-full">
+            <div class="grid md:grid-cols-2 gap-12 md:gap-20 items-center">
+                <!-- Left: Content -->
+                <div class="reveal-left">
+                    <span class="text-[#b45309] text-xs uppercase tracking-[0.3em] block mb-6">С 2014 года</span>
+                    <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl text-[#78350f] leading-tight mb-8">
+                        Искусство<br>создавать дом
+                    </h1>
+                    <p class="text-[#78716c] text-lg leading-relaxed mb-10 max-w-md">
+                        Превращаем квартиры в произведения искусства. Индивидуальный подход, безупречное качество, внимание к каждой детали.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <a href="#contact" class="btn-elegant text-center">Обсудить проект</a>
+                        <a href="#portfolio" class="inline-block px-8 py-4 text-[#78716c] text-xs uppercase tracking-[0.2em] hover:text-[#78350f] transition text-center">
+                            Смотреть работы
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: Image -->
+                <div class="reveal-right relative">
+                    <div class="aspect-[4/5] relative">
+                        <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=800"
+                             alt="Премиальный интерьер"
+                             class="w-full h-full object-cover">
+                        <div class="absolute -bottom-6 -left-6 w-32 h-32 border border-[#d4af37]"></div>
+                        <div class="absolute -top-6 -right-6 w-24 h-24 bg-[#f5f0e8]"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Scroll indicator -->
+            <div class="hidden md:flex justify-center mt-16">
+                <div class="scroll-indicator text-[#78716c]">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                    </svg>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Stats: Elegant line -->
-    <section class="py-16 border-y border-stone-200">
-        <div class="max-w-4xl mx-auto px-6 flex justify-center gap-20">
-            
-            <div class="text-center">
-                <div class="font-display text-4xl text-primary">10</div>
-                <div class="text-stone-400 text-sm uppercase tracking-widest mt-2">лет в деле</div>
-            </div>
-            
-            <div class="text-center">
-                <div class="font-display text-4xl text-primary">700+</div>
-                <div class="text-stone-400 text-sm uppercase tracking-widest mt-2">квартир</div>
-            </div>
-            
-            <div class="text-center">
-                <div class="font-display text-4xl text-primary">100%</div>
-                <div class="text-stone-400 text-sm uppercase tracking-widest mt-2">в срок</div>
-            </div>
-            
-        </div>
-    </section>
-
-    <!-- About section -->
-    <section id="about" class="py-24">
-        <div class="max-w-3xl mx-auto px-6 text-center">
-            <p class="text-accent uppercase tracking-[0.3em] text-xs mb-6">Философия</p>
-            <h2 class="font-display text-4xl text-primary mb-8">Внимание к деталям</h2>
-            <p class="text-stone-500 text-lg leading-relaxed">
-                Мы создаём пространства, в которых хочется жить. Каждый проект — это индивидуальный подход,
-                качественные материалы и безупречное исполнение. Наша цель — превзойти ваши ожидания.
-            </p>
-        </div>
-    </section>
-
-    <!-- Services: 3 columns elegant -->
-    <section id="services" class="py-24 bg-white">
+    <!-- Stats -->
+    <section class="py-20 border-y border-[#78350f]/10">
         <div class="max-w-5xl mx-auto px-6">
-            <p class="text-accent uppercase tracking-[0.3em] text-xs mb-6 text-center">Услуги</p>
-            <h2 class="font-display text-4xl text-primary mb-16 text-center">Что мы предлагаем</h2>
-            <div class="grid md:grid-cols-3 gap-12">
-                <div class="text-center">
-                    <div class="w-px h-12 bg-accent mx-auto mb-6"></div>
-                    <h3 class="font-display text-2xl text-primary mb-4">Дизайн</h3>
-                    <p class="text-stone-500">Разработка индивидуального дизайн-проекта с 3D-визуализацией</p>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-4">
+                <div class="text-center reveal">
+                    <div class="font-display text-4xl md:text-5xl text-[#78350f]">10<span class="text-[#b45309]">+</span></div>
+                    <div class="text-[#78716c] text-xs uppercase tracking-[0.2em] mt-3">лет опыта</div>
                 </div>
-                <div class="text-center">
-                    <div class="w-px h-12 bg-accent mx-auto mb-6"></div>
-                    <h3 class="font-display text-2xl text-primary mb-4">Ремонт</h3>
-                    <p class="text-stone-500">Полный цикл ремонтных работ от черновой отделки до меблировки</p>
+                <div class="text-center reveal">
+                    <div class="font-display text-4xl md:text-5xl text-[#78350f]">700<span class="text-[#b45309]">+</span></div>
+                    <div class="text-[#78716c] text-xs uppercase tracking-[0.2em] mt-3">проектов</div>
                 </div>
-                <div class="text-center">
-                    <div class="w-px h-12 bg-accent mx-auto mb-6"></div>
-                    <h3 class="font-display text-2xl text-primary mb-4">Комплектация</h3>
-                    <p class="text-stone-500">Подбор и закупка материалов, мебели и декора</p>
+                <div class="text-center reveal">
+                    <div class="font-display text-4xl md:text-5xl text-[#78350f]">100<span class="text-[#b45309]">%</span></div>
+                    <div class="text-[#78716c] text-xs uppercase tracking-[0.2em] mt-3">в срок</div>
+                </div>
+                <div class="text-center reveal">
+                    <div class="font-display text-4xl md:text-5xl text-[#78350f]">5</div>
+                    <div class="text-[#78716c] text-xs uppercase tracking-[0.2em] mt-3">лет гарантии</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Quote -->
-    <section class="py-24 bg-primary text-white">
+    <!-- Philosophy -->
+    <section class="py-24 md:py-32">
         <div class="max-w-3xl mx-auto px-6 text-center">
-            <p class="font-display text-3xl md:text-4xl leading-relaxed mb-8">
-                «Качество — это не акт, это привычка»
+            <div class="ornament mx-auto mb-8 reveal"></div>
+            <span class="text-[#b45309] text-xs uppercase tracking-[0.3em] block mb-6 reveal">Философия</span>
+            <p class="font-display text-2xl md:text-3xl text-[#78350f] leading-relaxed reveal">
+                Мы верим, что дом — это отражение личности. Каждый проект для нас — возможность создать пространство, которое будет вдохновлять и радовать долгие годы.
             </p>
-            <p class="text-white/50 uppercase tracking-widest text-sm">— Аристотель</p>
+            <p class="font-display-italic text-lg text-[#78716c] mt-8 reveal">
+                Мы не гонимся за количеством — мы стремимся к совершенству.
+            </p>
         </div>
     </section>
 
-    <!-- CTA -->
-    <section id="contacts" class="py-24">
-        <div class="max-w-xl mx-auto px-6 text-center">
-            <p class="text-accent uppercase tracking-[0.3em] text-xs mb-6">Контакты</p>
-            <h2 class="font-display text-4xl text-primary mb-8">Обсудим ваш проект?</h2>
-            <p class="text-stone-500 mb-4">+7 (995) 226-21-99</p>
-            <p class="text-stone-500 mb-10">Краснодар</p>
-            <a href="https://wa.me/79952262199" class="inline-flex items-center gap-3 bg-green-600 text-white px-10 py-4 hover:bg-green-700 transition">
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                Написать в WhatsApp
-            </a>
+    <!-- Services -->
+    <section id="services" class="py-24 md:py-32 bg-[#f5f0e8]">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="text-[#b45309] text-xs uppercase tracking-[0.3em] block mb-4 reveal">Услуги</span>
+                <h2 class="font-display text-4xl md:text-5xl text-[#78350f] reveal">Что мы предлагаем</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Service 1 -->
+                <div class="service-card reveal">
+                    <span class="text-[#d4af37] text-xs uppercase tracking-[0.2em]">от 2 000 ₽/м²</span>
+                    <h3 class="font-display text-2xl text-[#78350f] mt-4 mb-4">Дизайн-проект</h3>
+                    <p class="text-[#78716c] leading-relaxed mb-6">
+                        Полная визуализация будущего интерьера. Планировочные решения, 3D-рендеры, подбор материалов и мебели.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs uppercase tracking-wider text-[#78350f]/60 bg-[#78350f]/5 px-3 py-1">Обмерный план</span>
+                        <span class="text-xs uppercase tracking-wider text-[#78350f]/60 bg-[#78350f]/5 px-3 py-1">3D-визуализация</span>
+                    </div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="service-card reveal">
+                    <span class="text-[#d4af37] text-xs uppercase tracking-[0.2em]">от 4 000 ₽/м²</span>
+                    <h3 class="font-display text-2xl text-[#78350f] mt-4 mb-4">Косметический ремонт</h3>
+                    <p class="text-[#78716c] leading-relaxed mb-6">
+                        Обновление интерьера без капитальных работ. Покраска, обои, замена напольных покрытий.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs uppercase tracking-wider text-[#78350f]/60 bg-[#78350f]/5 px-3 py-1">Стены</span>
+                        <span class="text-xs uppercase tracking-wider text-[#78350f]/60 bg-[#78350f]/5 px-3 py-1">Потолки</span>
+                        <span class="text-xs uppercase tracking-wider text-[#78350f]/60 bg-[#78350f]/5 px-3 py-1">Полы</span>
+                    </div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="service-card reveal">
+                    <span class="text-[#d4af37] text-xs uppercase tracking-[0.2em]">от 9 000 ₽/м²</span>
+                    <h3 class="font-display text-2xl text-[#78350f] mt-4 mb-4">Капитальный ремонт</h3>
+                    <p class="text-[#78716c] leading-relaxed mb-6">
+                        Полное преображение пространства. Перепланировка, замена коммуникаций, чистовая отделка.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs uppercase tracking-wider text-[#78350f]/60 bg-[#78350f]/5 px-3 py-1">Перепланировка</span>
+                        <span class="text-xs uppercase tracking-wider text-[#78350f]/60 bg-[#78350f]/5 px-3 py-1">Электрика</span>
+                    </div>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="service-card reveal">
+                    <span class="text-[#d4af37] text-xs uppercase tracking-[0.2em]">от 18 000 ₽/м²</span>
+                    <h3 class="font-display text-2xl text-[#78350f] mt-4 mb-4">Ремонт под ключ</h3>
+                    <p class="text-[#78716c] leading-relaxed mb-6">
+                        От пустых стен до готового к жизни пространства. Включая мебель, технику и декор.
+                    </p>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="text-xs uppercase tracking-wider text-[#78350f]/60 bg-[#78350f]/5 px-3 py-1">Полный цикл</span>
+                        <span class="text-xs uppercase tracking-wider text-[#78350f]/60 bg-[#78350f]/5 px-3 py-1">Меблировка</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="text-center mt-12 reveal">
+                <button onclick="openCalculator()" class="btn-elegant">Рассчитать стоимость</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section id="portfolio" class="py-24 md:py-32">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="text-[#b45309] text-xs uppercase tracking-[0.3em] block mb-4 reveal">Портфолио</span>
+                <h2 class="font-display text-4xl md:text-5xl text-[#78350f] reveal">Наши работы</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Portfolio 1 -->
+                <div class="portfolio-item reveal">
+                    <div class="aspect-[3/4] relative">
+                        <img src="https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?w=600"
+                             alt="Квартира в классическом стиле"
+                             class="w-full h-full object-cover">
+                        <div class="portfolio-overlay flex flex-col justify-end p-6">
+                            <span class="text-[#d4af37] text-xs uppercase tracking-wider">Ремонт под ключ</span>
+                            <h3 class="font-display text-xl text-white mt-2">Квартира в классическом стиле</h3>
+                            <p class="text-white/60 text-sm mt-1">120 м²</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio 2 -->
+                <div class="portfolio-item reveal">
+                    <div class="aspect-[3/4] relative">
+                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600"
+                             alt="Современная студия"
+                             class="w-full h-full object-cover">
+                        <div class="portfolio-overlay flex flex-col justify-end p-6">
+                            <span class="text-[#d4af37] text-xs uppercase tracking-wider">Дизайнерский ремонт</span>
+                            <h3 class="font-display text-xl text-white mt-2">Современная студия</h3>
+                            <p class="text-white/60 text-sm mt-1">45 м²</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Portfolio 3 -->
+                <div class="portfolio-item reveal">
+                    <div class="aspect-[3/4] relative">
+                        <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600"
+                             alt="Семейная трёшка"
+                             class="w-full h-full object-cover">
+                        <div class="portfolio-overlay flex flex-col justify-end p-6">
+                            <span class="text-[#d4af37] text-xs uppercase tracking-wider">Капитальный ремонт</span>
+                            <h3 class="font-display text-xl text-white mt-2">Семейная трёшка</h3>
+                            <p class="text-white/60 text-sm mt-1">95 м²</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="py-24 md:py-32 bg-[#1c1917] text-white">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div class="reveal-left">
+                    <span class="text-[#d4af37] text-xs uppercase tracking-[0.3em] block mb-6">Почему мы</span>
+                    <h2 class="font-display text-4xl md:text-5xl leading-tight mb-8">Преимущества работы с нами</h2>
+                    <p class="text-white/60 leading-relaxed">
+                        За 10 лет работы мы выработали подход, который гарантирует результат. Каждый проект ведёт персональный дизайнер, качество контролируется на всех этапах.
+                    </p>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-8 reveal-right">
+                    <div>
+                        <div class="w-10 h-px bg-[#d4af37] mb-4"></div>
+                        <h3 class="font-display text-lg mb-2">Персональный дизайнер</h3>
+                        <p class="text-white/50 text-sm">Ведёт проект от идеи до воплощения</p>
+                    </div>
+                    <div>
+                        <div class="w-10 h-px bg-[#d4af37] mb-4"></div>
+                        <h3 class="font-display text-lg mb-2">Авторский надзор</h3>
+                        <p class="text-white/50 text-sm">Контроль соответствия проекту</p>
+                    </div>
+                    <div>
+                        <div class="w-10 h-px bg-[#d4af37] mb-4"></div>
+                        <h3 class="font-display text-lg mb-2">Собственные бригады</h3>
+                        <p class="text-white/50 text-sm">Мастера с опытом от 7 лет</p>
+                    </div>
+                    <div>
+                        <div class="w-10 h-px bg-[#d4af37] mb-4"></div>
+                        <h3 class="font-display text-lg mb-2">Прозрачная смета</h3>
+                        <p class="text-white/50 text-sm">Фиксированная цена без скрытых платежей</p>
+                    </div>
+                    <div>
+                        <div class="w-10 h-px bg-[#d4af37] mb-4"></div>
+                        <h3 class="font-display text-lg mb-2">Ежедневные отчёты</h3>
+                        <p class="text-white/50 text-sm">Фото и видео прогресса</p>
+                    </div>
+                    <div>
+                        <div class="w-10 h-px bg-[#d4af37] mb-4"></div>
+                        <h3 class="font-display text-lg mb-2">Гарантия 5 лет</h3>
+                        <p class="text-white/50 text-sm">На все виды работ</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process -->
+    <section id="process" class="py-24 md:py-32">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="text-[#b45309] text-xs uppercase tracking-[0.3em] block mb-4 reveal">Процесс</span>
+                <h2 class="font-display text-4xl md:text-5xl text-[#78350f] reveal">Как мы работаем</h2>
+            </div>
+
+            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+                <div class="reveal">
+                    <span class="font-display text-5xl text-[#d4af37]/30">01</span>
+                    <h3 class="font-display text-xl text-[#78350f] mt-2 mb-3">Знакомство</h3>
+                    <p class="text-[#78716c] text-sm leading-relaxed">Встречаемся, обсуждаем ваши пожелания и стиль жизни</p>
+                </div>
+                <div class="reveal">
+                    <span class="font-display text-5xl text-[#d4af37]/30">02</span>
+                    <h3 class="font-display text-xl text-[#78350f] mt-2 mb-3">Концепция</h3>
+                    <p class="text-[#78716c] text-sm leading-relaxed">Разрабатываем дизайн-концепцию и планировочное решение</p>
+                </div>
+                <div class="reveal">
+                    <span class="font-display text-5xl text-[#d4af37]/30">03</span>
+                    <h3 class="font-display text-xl text-[#78350f] mt-2 mb-3">Визуализация</h3>
+                    <p class="text-[#78716c] text-sm leading-relaxed">Создаём фотореалистичные 3D-рендеры интерьера</p>
+                </div>
+                <div class="reveal">
+                    <span class="font-display text-5xl text-[#d4af37]/30">04</span>
+                    <h3 class="font-display text-xl text-[#78350f] mt-2 mb-3">Смета</h3>
+                    <p class="text-[#78716c] text-sm leading-relaxed">Составляем детальную смету с фиксированными ценами</p>
+                </div>
+                <div class="reveal">
+                    <span class="font-display text-5xl text-[#d4af37]/30">05</span>
+                    <h3 class="font-display text-xl text-[#78350f] mt-2 mb-3">Реализация</h3>
+                    <p class="text-[#78716c] text-sm leading-relaxed">Воплощаем проект с ежедневным контролем качества</p>
+                </div>
+                <div class="reveal">
+                    <span class="font-display text-5xl text-[#d4af37]/30">06</span>
+                    <h3 class="font-display text-xl text-[#78350f] mt-2 mb-3">Приёмка</h3>
+                    <p class="text-[#78716c] text-sm leading-relaxed">Сдаём объект и предоставляем гарантию</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="py-24 md:py-32 bg-[#f5f0e8]">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="text-[#b45309] text-xs uppercase tracking-[0.3em] block mb-4 reveal">Отзывы</span>
+                <h2 class="font-display text-4xl md:text-5xl text-[#78350f] reveal">Что говорят клиенты</h2>
+            </div>
+
+            <div class="space-y-12">
+                <!-- Review 1 -->
+                <div class="bg-white p-8 md:p-12 reveal">
+                    <div class="flex gap-1 mb-6">
+                        <svg class="w-4 h-4 text-[#d4af37]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4 text-[#d4af37]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4 text-[#d4af37]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4 text-[#d4af37]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4 text-[#d4af37]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    </div>
+                    <p class="font-display-italic text-xl text-[#78350f] leading-relaxed mb-8">
+                        «Работа с Комфорт Сервис — это особый опыт. Чувствуешь, что команда искренне заинтересована в результате. Наша квартира стала именно такой, какой мы мечтали.»
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-px bg-[#d4af37]"></div>
+                        <div>
+                            <span class="font-display text-[#78350f]">Ирина В.</span>
+                            <span class="text-[#78716c] text-sm ml-2">Ремонт под ключ, 95 м²</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Review 2 -->
+                <div class="bg-white p-8 md:p-12 reveal">
+                    <div class="flex gap-1 mb-6">
+                        <svg class="w-4 h-4 text-[#d4af37]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4 text-[#d4af37]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4 text-[#d4af37]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4 text-[#d4af37]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-4 h-4 text-[#d4af37]" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    </div>
+                    <p class="font-display-italic text-xl text-[#78350f] leading-relaxed mb-8">
+                        «Профессионализм на высшем уровне. Дизайнер понял нас с полуслова, а качество исполнения превзошло ожидания. Спасибо за наш идеальный дом!»
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-px bg-[#d4af37]"></div>
+                        <div>
+                            <span class="font-display text-[#78350f]">Алексей и Марина К.</span>
+                            <span class="text-[#78716c] text-sm ml-2">78 м²</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="py-24 md:py-32">
+        <div class="max-w-3xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <span class="text-[#b45309] text-xs uppercase tracking-[0.3em] block mb-4 reveal">Вопросы</span>
+                <h2 class="font-display text-4xl md:text-5xl text-[#78350f] reveal">Частые вопросы</h2>
+            </div>
+
+            <div class="space-y-4">
+                <div class="faq-item border-b border-[#78350f]/10 reveal">
+                    <button class="w-full flex justify-between items-center py-6 text-left" onclick="toggleFaq(this)">
+                        <span class="font-display text-lg text-[#78350f]">Работаете ли вы по дизайн-проекту клиента?</span>
+                        <span class="faq-icon text-[#b45309] text-xl transition-transform">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p class="text-[#78716c] pb-6">Да, мы готовы реализовать ваш дизайн-проект или доработать его при необходимости. Также можем предложить авторский надзор от вашего дизайнера.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item border-b border-[#78350f]/10 reveal">
+                    <button class="w-full flex justify-between items-center py-6 text-left" onclick="toggleFaq(this)">
+                        <span class="font-display text-lg text-[#78350f]">Какие материалы вы используете?</span>
+                        <span class="faq-icon text-[#b45309] text-xl transition-transform">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p class="text-[#78716c] pb-6">Мы работаем с премиальными европейскими и российскими брендами. Готовы подобрать материалы любого ценового сегмента по вашему желанию.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item border-b border-[#78350f]/10 reveal">
+                    <button class="w-full flex justify-between items-center py-6 text-left" onclick="toggleFaq(this)">
+                        <span class="font-display text-lg text-[#78350f]">Возможна ли рассрочка?</span>
+                        <span class="faq-icon text-[#b45309] text-xl transition-transform">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p class="text-[#78716c] pb-6">Да, мы предлагаем поэтапную оплату, привязанную к выполнению работ. Также возможна рассрочка от банков-партнёров.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item border-b border-[#78350f]/10 reveal">
+                    <button class="w-full flex justify-between items-center py-6 text-left" onclick="toggleFaq(this)">
+                        <span class="font-display text-lg text-[#78350f]">Как происходит контроль качества?</span>
+                        <span class="faq-icon text-[#b45309] text-xl transition-transform">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <p class="text-[#78716c] pb-6">Каждый этап работ принимается прорабом и дизайнером. Вы получаете ежедневные фотоотчёты и можете посещать объект в любое время.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="py-24 md:py-32 bg-[#1c1917] text-white">
+        <div class="max-w-4xl mx-auto px-6">
+            <div class="text-center mb-16">
+                <div class="ornament mx-auto mb-8 reveal"></div>
+                <h2 class="font-display text-4xl md:text-5xl reveal">Обсудим ваш проект?</h2>
+                <p class="text-white/60 mt-6 max-w-lg mx-auto reveal">
+                    Оставьте заявку, и мы свяжемся с вами для бесплатной консультации
+                </p>
+            </div>
+
+            <form class="max-w-xl mx-auto space-y-6 reveal" onsubmit="submitForm(event)">
+                <div class="grid sm:grid-cols-2 gap-6">
+                    <input type="text" name="name" placeholder="Имя" required
+                           class="bg-transparent border-b border-white/20 py-4 text-white placeholder-white/40 focus:border-[#d4af37] focus:outline-none transition">
+                    <input type="tel" name="phone" placeholder="Телефон" required
+                           class="bg-transparent border-b border-white/20 py-4 text-white placeholder-white/40 focus:border-[#d4af37] focus:outline-none transition">
+                </div>
+                <textarea name="message" placeholder="Расскажите о проекте" rows="3"
+                          class="w-full bg-transparent border-b border-white/20 py-4 text-white placeholder-white/40 focus:border-[#d4af37] focus:outline-none transition resize-none"></textarea>
+
+                <div class="flex flex-col sm:flex-row gap-6 pt-4">
+                    <button type="submit" class="flex-1 bg-[#d4af37] text-[#1c1917] py-4 uppercase tracking-[0.2em] text-sm font-medium hover:bg-[#d4af37]/90 transition">
+                        Отправить заявку
+                    </button>
+                    <a href="https://wa.me/79952262199" class="flex-1 border border-white/20 py-4 uppercase tracking-[0.2em] text-sm text-center hover:border-white transition flex items-center justify-center gap-2">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                        WhatsApp
+                    </a>
+                </div>
+            </form>
+
+            <div class="grid sm:grid-cols-3 gap-8 mt-20 pt-12 border-t border-white/10 text-center reveal">
+                <div>
+                    <span class="text-white/40 text-xs uppercase tracking-[0.2em]">Телефон</span>
+                    <a href="tel:79952262199" class="block mt-2 text-white hover:text-[#d4af37] transition">+7 (995) 226-21-99</a>
+                </div>
+                <div>
+                    <span class="text-white/40 text-xs uppercase tracking-[0.2em]">Адрес</span>
+                    <p class="mt-2">Краснодар, ул. Красных Партизан, 512</p>
+                </div>
+                <div>
+                    <span class="text-white/40 text-xs uppercase tracking-[0.2em]">График</span>
+                    <p class="mt-2">Пн-Сб: 10:00 — 19:00</p>
+                </div>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-8 border-t border-stone-200 text-center text-stone-400 text-sm">
-        <p>© Комфорт сервис · Краснодар</p>
+    <footer class="py-8 border-t border-[#78350f]/10">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <span class="font-display text-[#78350f]">Комфорт Сервис</span>
+            <span class="text-[#78716c] text-sm">2026. Все права защищены.</span>
+        </div>
     </footer>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/79952262199"
+       class="fixed bottom-6 right-6 w-14 h-14 bg-[#25D366] rounded-full flex items-center justify-center z-50 hover:scale-110 transition-transform shadow-lg"
+       title="Написать в WhatsApp">
+        <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+    </a>
+
+    <!-- Calculator Modal -->
+    <div id="calculatorModal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/80" onclick="closeCalculator()"></div>
+        <div class="absolute inset-4 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-full sm:max-w-md bg-white overflow-auto max-h-[90vh]">
+            <div class="p-8">
+                <div class="flex justify-between items-center mb-8">
+                    <h3 class="font-display text-2xl text-[#78350f]">Калькулятор стоимости</h3>
+                    <button onclick="closeCalculator()" class="text-[#78716c] hover:text-[#78350f] text-2xl">&times;</button>
+                </div>
+
+                <div class="space-y-6">
+                    <div>
+                        <label class="text-xs uppercase tracking-[0.2em] text-[#78716c] block mb-4">Тип ремонта</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button type="button" class="calc-type-btn border border-[#78350f]/20 p-4 text-center hover:border-[#78350f] transition" data-price="2000" onclick="selectType(this)">
+                                <span class="font-display text-sm block text-[#78350f]">Дизайн-проект</span>
+                                <span class="text-[#b45309] text-xs">2 000 ₽/м²</span>
+                            </button>
+                            <button type="button" class="calc-type-btn border border-[#78350f]/20 p-4 text-center hover:border-[#78350f] transition" data-price="4000" onclick="selectType(this)">
+                                <span class="font-display text-sm block text-[#78350f]">Косметический</span>
+                                <span class="text-[#b45309] text-xs">4 000 ₽/м²</span>
+                            </button>
+                            <button type="button" class="calc-type-btn border border-[#78350f]/20 p-4 text-center hover:border-[#78350f] transition" data-price="9000" onclick="selectType(this)">
+                                <span class="font-display text-sm block text-[#78350f]">Капитальный</span>
+                                <span class="text-[#b45309] text-xs">9 000 ₽/м²</span>
+                            </button>
+                            <button type="button" class="calc-type-btn border border-[#78350f]/20 p-4 text-center hover:border-[#78350f] transition" data-price="18000" onclick="selectType(this)">
+                                <span class="font-display text-sm block text-[#78350f]">Под ключ</span>
+                                <span class="text-[#b45309] text-xs">18 000 ₽/м²</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-xs uppercase tracking-[0.2em] text-[#78716c] block mb-4">Площадь: <span id="areaValue">50</span> м²</label>
+                        <input type="range" id="areaSlider" min="25" max="250" value="50"
+                               class="w-full h-1 bg-[#78350f]/20 appearance-none cursor-pointer"
+                               oninput="updateCalculation()">
+                        <div class="flex justify-between text-xs text-[#78716c] mt-2">
+                            <span>25 м²</span>
+                            <span>250 м²</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#f5f0e8] p-6 text-center">
+                        <span class="text-[#78716c] text-xs uppercase tracking-[0.2em]">Примерная стоимость</span>
+                        <div class="font-display text-4xl text-[#78350f] mt-2" id="calcResult">—</div>
+                    </div>
+
+                    <p class="text-[#78716c] text-xs text-center">
+                        Точную стоимость рассчитаем после знакомства с проектом
+                    </p>
+
+                    <a href="https://wa.me/79952262199?text=Хочу%20обсудить%20дизайн-проект"
+                       class="block w-full bg-[#78350f] text-white py-4 uppercase tracking-[0.2em] text-sm text-center hover:bg-[#78350f]/90 transition">
+                        Получить консультацию
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+            document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+        });
+
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('open');
+            document.body.style.overflow = '';
+        }
+
+        // FAQ accordion
+        function toggleFaq(btn) {
+            const item = btn.parentElement;
+            const wasActive = item.classList.contains('active');
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+            if (!wasActive) item.classList.add('active');
+        }
+
+        // Calculator
+        let selectedPrice = 0;
+
+        function openCalculator() {
+            document.getElementById('calculatorModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCalculator() {
+            document.getElementById('calculatorModal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function selectType(btn) {
+            document.querySelectorAll('.calc-type-btn').forEach(b => {
+                b.classList.remove('border-[#78350f]', 'bg-[#78350f]/5');
+                b.classList.add('border-[#78350f]/20');
+            });
+            btn.classList.remove('border-[#78350f]/20');
+            btn.classList.add('border-[#78350f]', 'bg-[#78350f]/5');
+            selectedPrice = parseInt(btn.dataset.price);
+            updateCalculation();
+        }
+
+        function updateCalculation() {
+            const area = document.getElementById('areaSlider').value;
+            document.getElementById('areaValue').textContent = area;
+            if (selectedPrice > 0) {
+                const total = selectedPrice * area;
+                document.getElementById('calcResult').textContent = total.toLocaleString('ru-RU') + ' ₽';
+            }
+        }
+
+        // Scroll reveal
+        const observerOptions = { threshold: 0.1, rootMargin: '0px 0px -50px 0px' };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal, .reveal-left, .reveal-right').forEach(el => observer.observe(el));
+
+        // Form submit
+        function submitForm(e) {
+            e.preventDefault();
+            const data = new FormData(e.target);
+            let message = 'Заявка с сайта Комфорт Сервис:\n';
+            message += `Имя: ${data.get('name')}\n`;
+            message += `Телефон: ${data.get('phone')}\n`;
+            if (data.get('message')) message += `Сообщение: ${data.get('message')}`;
+            window.open(`https://wa.me/79952262199?text=${encodeURIComponent(message)}`, '_blank');
+        }
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
 </body>
 </html>

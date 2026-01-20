@@ -3,109 +3,720 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Триумф-Юг // Ремонт квартир</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>Триумф-Юг — Ремонт квартир в Краснодаре</title>
+    <link rel="icon" href="/favicon.ico?v=2">
+    <meta name="description" content="Ремонт квартир под ключ в Краснодаре. Фиксированные цены, точные сроки, гарантия 5 лет. Более 400 выполненных проектов.">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+
     <style>
-        :root { --primary: #0a0a0a; --accent: #10b981; }
-        body { font-family: 'Space Grotesk', sans-serif; background: #0a0a0a; }
-        .font-mono { font-family: 'JetBrains Mono', monospace; }
-        .text-accent { color: var(--accent); }
-        .bg-accent { background-color: var(--accent); }
-        .border-accent { border-color: var(--accent); }
-        .glow { box-shadow: 0 0 30px var(--accent); }
-        .glow-text { text-shadow: 0 0 20px var(--accent); }
+        :root {
+            --primary: #6366f1;
+            --primary-light: #818cf8;
+            --secondary: #ec4899;
+            --accent: #06b6d4;
+            --text: #1e293b;
+            --text-muted: #64748b;
+            --bg: #ffffff;
+            --bg-soft: #f8fafc;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        /* Gradient text */
+        .gradient-text {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Gradient backgrounds */
+        .gradient-bg {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+        }
+
+        .gradient-bg-soft {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+        }
+
+        /* Glassmorphism card */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        /* Service card hover */
+        .service-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+            border: 1px solid #f1f5f9;
+        }
+        .service-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px -12px rgba(99, 102, 241, 0.25);
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+
+        /* Button styles */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            font-weight: 600;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 14px -4px rgba(99, 102, 241, 0.5);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px -4px rgba(99, 102, 241, 0.6);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--primary);
+            font-weight: 600;
+            border-radius: 12px;
+            border: 2px solid var(--primary);
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Portfolio card */
+        .portfolio-card {
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        .portfolio-card:hover {
+            transform: scale(1.02);
+        }
+        .portfolio-card img {
+            transition: transform 0.6s ease;
+        }
+        .portfolio-card:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Process step */
+        .process-step {
+            position: relative;
+        }
+        .process-step::after {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: calc(100% + 8px);
+            width: calc(100% - 48px);
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            opacity: 0.3;
+        }
+        .process-step:last-child::after {
+            display: none;
+        }
+
+        /* Review card */
+        .review-card {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f1f5f9;
+        }
+
+        /* FAQ */
+        .faq-item {
+            border-radius: 16px;
+            background: white;
+            border: 1px solid #f1f5f9;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .faq-item:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+        }
+        .faq-item.active {
+            border-color: var(--primary);
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            transform: translateY(-100%);
+            transition: transform 0.3s ease;
+        }
+        .mobile-menu.open {
+            transform: translateY(0);
+        }
+
+        /* Reveal animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Decorative blobs */
+        .blob-1 {
+            position: absolute;
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(40px);
+        }
+        .blob-2 {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(236, 72, 153, 0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            filter: blur(40px);
+        }
+
+        /* Stat card */
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 24px;
+            text-align: center;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f1f5f9;
+            transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            border-color: rgba(99, 102, 241, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Benefit item */
+        .benefit-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+        }
+        .benefit-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(236, 72, 153, 0.1) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
     </style>
 </head>
-<body class="text-white">
-    <!-- Header: Tech style -->
-    <header class="fixed w-full z-50 bg-black/80 backdrop-blur-lg border-b border-white/10">
-        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
-            <div class="flex items-center gap-2">
-                <div class="w-2 h-2 bg-accent rounded-full animate-pulse"></div>
-                <span class="font-mono text-sm">Триумф-Юг</span>
+<body>
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-white/80 backdrop-blur-lg border-b border-gray-100">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="flex justify-between items-center h-16 md:h-20">
+                <!-- Logo -->
+                <a href="#" class="flex items-center gap-2">
+                    <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center">
+                        <span class="text-white font-bold text-lg">Т</span>
+                    </div>
+                    <span class="font-bold text-xl text-gray-900">Триумф-Юг</span>
+                </a>
+
+                <!-- Desktop Nav -->
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="#services" class="text-gray-600 hover:text-[#6366f1] font-medium transition">Услуги</a>
+                    <a href="#portfolio" class="text-gray-600 hover:text-[#6366f1] font-medium transition">Работы</a>
+                    <a href="#process" class="text-gray-600 hover:text-[#6366f1] font-medium transition">Процесс</a>
+                    <a href="#reviews" class="text-gray-600 hover:text-[#6366f1] font-medium transition">Отзывы</a>
+                </nav>
+
+                <!-- CTA -->
+                <a href="tel:79892300243" class="hidden md:flex items-center gap-2 text-[#6366f1] font-semibold">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                    </svg>
+                    +7 (989) 230-02-43
+                </a>
+
+                <!-- Mobile Menu Button -->
+                <button id="menuBtn" class="md:hidden w-10 h-10 rounded-xl bg-gray-100 flex items-center justify-center">
+                    <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
             </div>
-            <a href="tel:79892300243" class="font-mono text-sm text-accent hover:glow-text transition">
-                +7 (989) 230-02-43
-            </a>
         </div>
     </header>
 
-    <!-- Hero: Terminal style -->
-    <section class="min-h-screen flex items-center pt-20">
-        <div class="max-w-4xl mx-auto px-6">
-            <div class="font-mono text-accent text-sm mb-6">// Бесплатный выезд замерщика</div>
-            <h1 class="text-4xl md:text-6xl lg:text-7xl font-bold mb-8 leading-tight">
-                <span class="text-white">Ремонт квартир любой сложности</span>
-                <span class="text-accent glow-text">_</span>
-            </h1>
-            <p class="text-xl text-gray-400 max-w-2xl mb-12">Косметический, капитальный, дизайнерский. Индивидуальный подход.</p>
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu fixed inset-x-0 top-16 z-40 bg-white border-b border-gray-100 shadow-lg">
+        <div class="p-6 space-y-4">
+            <a href="#services" class="block text-gray-700 font-medium py-2" onclick="closeMobileMenu()">Услуги</a>
+            <a href="#portfolio" class="block text-gray-700 font-medium py-2" onclick="closeMobileMenu()">Работы</a>
+            <a href="#process" class="block text-gray-700 font-medium py-2" onclick="closeMobileMenu()">Процесс</a>
+            <a href="#reviews" class="block text-gray-700 font-medium py-2" onclick="closeMobileMenu()">Отзывы</a>
+            <div class="pt-4 border-t border-gray-100">
+                <a href="tel:79892300243" class="flex items-center gap-2 text-[#6366f1] font-semibold">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                    </svg>
+                    +7 (989) 230-02-43
+                </a>
+            </div>
+        </div>
+    </div>
 
-            <div class="flex flex-wrap gap-4">
-                <a href="https://wa.me/79892300243" class="bg-accent text-black px-8 py-4 font-bold hover:glow transition inline-flex items-center gap-3">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                    НАПИСАТЬ
-                </a>
-                <a href="tel:79892300243" class="border border-white/20 px-8 py-4 font-mono text-sm hover:border-accent hover:text-accent transition">
-                    ПОЗВОНИТЬ
-                </a>
+    <!-- Hero -->
+    <section class="min-h-screen flex items-center pt-16 md:pt-20 relative overflow-hidden">
+        <!-- Decorative blobs -->
+        <div class="blob-1 -top-40 -right-40"></div>
+        <div class="blob-2 bottom-0 left-0"></div>
+
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 py-20 relative">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <!-- Badge -->
+                    <div class="inline-flex items-center gap-2 bg-[#6366f1]/10 text-[#6366f1] px-4 py-2 rounded-full text-sm font-medium mb-6 reveal">
+                        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+                        </svg>
+                        Более 400 проектов
+                    </div>
+
+                    <!-- Main heading -->
+                    <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight mb-6 reveal">
+                        Ремонт, в который<br>
+                        <span class="gradient-text">влюбляешься</span>
+                    </h1>
+
+                    <p class="text-gray-600 text-lg md:text-xl mb-8 max-w-lg reveal">
+                        Создаём пространства, где хочется жить. Современные решения, прозрачные цены, гарантия качества на 5 лет.
+                    </p>
+
+                    <div class="flex flex-col sm:flex-row gap-4 reveal">
+                        <a href="https://wa.me/79892300243" class="btn-primary px-8 py-4 inline-flex items-center justify-center gap-3">
+                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                            Обсудить проект
+                        </a>
+                        <button onclick="openCalculator()" class="btn-secondary px-8 py-4 inline-flex items-center justify-center gap-2">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path>
+                            </svg>
+                            Рассчитать стоимость
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Hero image / Stats -->
+                <div class="relative reveal">
+                    <div class="aspect-square rounded-3xl overflow-hidden shadow-2xl">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=800&fit=crop"
+                             alt="Современный интерьер"
+                             class="w-full h-full object-cover">
+                    </div>
+                    <!-- Floating card -->
+                    <div class="absolute -bottom-6 -left-6 bg-white rounded-2xl shadow-xl p-6 max-w-[200px]">
+                        <div class="text-3xl font-bold gradient-text">7+ лет</div>
+                        <div class="text-gray-500 text-sm mt-1">безупречной работы</div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- Stats: Grid cards -->
-    <section class="py-20">
-        <div class="max-w-4xl mx-auto px-6 grid grid-cols-3 gap-4">
-            
-            <div class="border border-white/10 p-6 hover:border-accent transition group">
-                <div class="text-4xl font-bold text-accent group-hover:glow-text transition">7</div>
-                <div class="text-gray-500 font-mono text-xs mt-2 uppercase">лет практики</div>
+    <!-- Stats -->
+    <section class="py-16 bg-[#f8fafc]">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                <div class="stat-card reveal">
+                    <div class="text-3xl md:text-4xl font-bold gradient-text">7+</div>
+                    <div class="text-gray-500 text-sm mt-2">лет опыта</div>
+                </div>
+                <div class="stat-card reveal">
+                    <div class="text-3xl md:text-4xl font-bold gradient-text">400+</div>
+                    <div class="text-gray-500 text-sm mt-2">проектов</div>
+                </div>
+                <div class="stat-card reveal">
+                    <div class="text-3xl md:text-4xl font-bold gradient-text">98%</div>
+                    <div class="text-gray-500 text-sm mt-2">довольных клиентов</div>
+                </div>
+                <div class="stat-card reveal">
+                    <div class="text-3xl md:text-4xl font-bold gradient-text">5</div>
+                    <div class="text-gray-500 text-sm mt-2">лет гарантии</div>
+                </div>
             </div>
-            
-            <div class="border border-white/10 p-6 hover:border-accent transition group">
-                <div class="text-4xl font-bold text-accent group-hover:glow-text transition">400+</div>
-                <div class="text-gray-500 font-mono text-xs mt-2 uppercase">клиентов</div>
-            </div>
-            
-            <div class="border border-white/10 p-6 hover:border-accent transition group">
-                <div class="text-4xl font-bold text-accent group-hover:glow-text transition">24/7</div>
-                <div class="text-gray-500 font-mono text-xs mt-2 uppercase">поддержка</div>
-            </div>
-            
         </div>
     </section>
 
-    <!-- Process: Timeline -->
-    <section class="py-20 border-y border-white/10">
-        <div class="max-w-4xl mx-auto px-6">
-            <div class="font-mono text-accent text-sm mb-8">// Процесс</div>
-            <div class="space-y-8">
-                <div class="flex gap-6 items-start group">
-                    <div class="w-12 h-12 border border-white/20 flex items-center justify-center font-mono text-accent group-hover:border-accent group-hover:glow transition">01</div>
-                    <div class="pt-2">
-                        <h3 class="font-bold text-lg mb-2">Консультация</h3>
-                        <p class="text-gray-500">Обсуждаем ваши идеи и требования, выезжаем на замер</p>
+    <!-- Services -->
+    <section id="services" class="py-24">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-16">
+                <div class="inline-block text-[#6366f1] font-semibold text-sm uppercase tracking-wider mb-4 reveal">Услуги</div>
+                <h2 class="text-3xl md:text-4xl font-bold reveal">Виды ремонта</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Service 1 -->
+                <div class="service-card p-6 reveal">
+                    <div class="w-14 h-14 rounded-2xl gradient-bg-soft flex items-center justify-center mb-5">
+                        <svg class="w-7 h-7 text-[#6366f1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Косметический</h3>
+                    <p class="text-gray-500 text-sm mb-4">Освежим интерьер: покраска, обои, потолки, полы. Быстро и аккуратно.</p>
+                    <div class="text-[#6366f1] font-semibold">от 3 500 ₽/м²</div>
+                </div>
+
+                <!-- Service 2 -->
+                <div class="service-card p-6 reveal">
+                    <div class="w-14 h-14 rounded-2xl gradient-bg-soft flex items-center justify-center mb-5">
+                        <svg class="w-7 h-7 text-[#6366f1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Капитальный</h3>
+                    <p class="text-gray-500 text-sm mb-4">Полная перепланировка, замена коммуникаций, новая электрика и сантехника.</p>
+                    <div class="text-[#6366f1] font-semibold">от 6 500 ₽/м²</div>
+                </div>
+
+                <!-- Service 3 -->
+                <div class="service-card p-6 reveal">
+                    <div class="w-14 h-14 rounded-2xl gradient-bg-soft flex items-center justify-center mb-5">
+                        <svg class="w-7 h-7 text-[#6366f1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Дизайнерский</h3>
+                    <p class="text-gray-500 text-sm mb-4">Индивидуальный проект от дизайнера. 3D-визуализация и авторский надзор.</p>
+                    <div class="text-[#6366f1] font-semibold">от 10 000 ₽/м²</div>
+                </div>
+
+                <!-- Service 4 -->
+                <div class="service-card p-6 reveal">
+                    <div class="w-14 h-14 rounded-2xl gradient-bg-soft flex items-center justify-center mb-5">
+                        <svg class="w-7 h-7 text-[#6366f1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Под ключ</h3>
+                    <p class="text-gray-500 text-sm mb-4">Полный цикл: от проекта до меблировки. Заезжайте и живите.</p>
+                    <div class="text-[#6366f1] font-semibold">от 14 000 ₽/м²</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section class="py-24 bg-[#f8fafc]">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="reveal">
+                    <div class="inline-block text-[#6366f1] font-semibold text-sm uppercase tracking-wider mb-4">Почему мы</div>
+                    <h2 class="text-3xl md:text-4xl font-bold mb-6">Работаем так, чтобы вы рекомендовали нас друзьям</h2>
+                    <p class="text-gray-600 text-lg">За 7 лет мы выработали принципы, которые гарантируют результат. Никаких сюрпризов — только качество.</p>
+                </div>
+
+                <div class="space-y-6">
+                    <div class="benefit-item reveal">
+                        <div class="benefit-icon">
+                            <svg class="w-6 h-6 text-[#6366f1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-1">Фиксированная цена</h3>
+                            <p class="text-gray-500">Смета — это договор. Никаких скрытых доплат и сюрпризов.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item reveal">
+                        <div class="benefit-icon">
+                            <svg class="w-6 h-6 text-[#6366f1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-1">Точные сроки</h3>
+                            <p class="text-gray-500">Сдаём в срок или платим неустойку. За 7 лет — ни одной просрочки.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item reveal">
+                        <div class="benefit-icon">
+                            <svg class="w-6 h-6 text-[#6366f1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-1">Свои бригады</h3>
+                            <p class="text-gray-500">Работают только штатные мастера. За качество отвечаем лично.</p>
+                        </div>
+                    </div>
+
+                    <div class="benefit-item reveal">
+                        <div class="benefit-icon">
+                            <svg class="w-6 h-6 text-[#6366f1]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-lg mb-1">Гарантия 5 лет</h3>
+                            <p class="text-gray-500">Что-то пошло не так — приедем и исправим бесплатно.</p>
+                        </div>
                     </div>
                 </div>
-                <div class="flex gap-6 items-start group">
-                    <div class="w-12 h-12 border border-white/20 flex items-center justify-center font-mono text-accent group-hover:border-accent group-hover:glow transition">02</div>
-                    <div class="pt-2">
-                        <h3 class="font-bold text-lg mb-2">Смета</h3>
-                        <p class="text-gray-500">Составляем детальную смету с фиксированными ценами</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section id="portfolio" class="py-24">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-16">
+                <div class="inline-block text-[#6366f1] font-semibold text-sm uppercase tracking-wider mb-4 reveal">Портфолио</div>
+                <h2 class="text-3xl md:text-4xl font-bold reveal">Наши работы</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="portfolio-card shadow-lg reveal">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=400&fit=crop"
+                             alt="Светлая студия"
+                             class="w-full aspect-[4/3] object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-5">
+                            <span class="inline-block bg-white/20 backdrop-blur-sm text-white text-xs font-medium px-3 py-1 rounded-full mb-2">Дизайнерский ремонт</span>
+                            <h3 class="text-white font-bold text-lg">Светлая студия 42м²</h3>
+                            <p class="text-white/80 text-sm">Скандинавский минимализм</p>
+                        </div>
                     </div>
                 </div>
-                <div class="flex gap-6 items-start group">
-                    <div class="w-12 h-12 border border-white/20 flex items-center justify-center font-mono text-accent group-hover:border-accent group-hover:glow transition">03</div>
-                    <div class="pt-2">
-                        <h3 class="font-bold text-lg mb-2">Ремонт</h3>
-                        <p class="text-gray-500">Выполняем работы точно в срок с ежедневными отчётами</p>
+
+                <div class="portfolio-card shadow-lg reveal">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600&h=400&fit=crop"
+                             alt="Семейная двушка"
+                             class="w-full aspect-[4/3] object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-5">
+                            <span class="inline-block bg-white/20 backdrop-blur-sm text-white text-xs font-medium px-3 py-1 rounded-full mb-2">Ремонт под ключ</span>
+                            <h3 class="text-white font-bold text-lg">Семейная двушка 68м²</h3>
+                            <p class="text-white/80 text-sm">Современная классика</p>
+                        </div>
                     </div>
                 </div>
-                <div class="flex gap-6 items-start group">
-                    <div class="w-12 h-12 border border-white/20 flex items-center justify-center font-mono text-accent group-hover:border-accent group-hover:glow transition">04</div>
-                    <div class="pt-2">
-                        <h3 class="font-bold text-lg mb-2">Гарантия</h3>
-                        <p class="text-gray-500">5 лет гарантии на все выполненные работы</p>
+
+                <div class="portfolio-card shadow-lg reveal">
+                    <div class="relative overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop"
+                             alt="Просторная трёшка"
+                             class="w-full aspect-[4/3] object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-5">
+                            <span class="inline-block bg-white/20 backdrop-blur-sm text-white text-xs font-medium px-3 py-1 rounded-full mb-2">Капитальный ремонт</span>
+                            <h3 class="text-white font-bold text-lg">Просторная трёшка 95м²</h3>
+                            <p class="text-white/80 text-sm">Контемпорари</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process -->
+    <section id="process" class="py-24 bg-[#f8fafc]">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-16">
+                <div class="inline-block text-[#6366f1] font-semibold text-sm uppercase tracking-wider mb-4 reveal">Процесс</div>
+                <h2 class="text-3xl md:text-4xl font-bold reveal">Как мы работаем</h2>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+                <div class="process-step text-center reveal">
+                    <div class="w-12 h-12 rounded-full gradient-bg text-white font-bold flex items-center justify-center mx-auto mb-4">1</div>
+                    <h3 class="font-bold mb-2">Заявка</h3>
+                    <p class="text-gray-500 text-sm">Перезвоним за 15 минут</p>
+                </div>
+
+                <div class="process-step text-center reveal">
+                    <div class="w-12 h-12 rounded-full gradient-bg text-white font-bold flex items-center justify-center mx-auto mb-4">2</div>
+                    <h3 class="font-bold mb-2">Замер</h3>
+                    <p class="text-gray-500 text-sm">Бесплатный выезд</p>
+                </div>
+
+                <div class="process-step text-center reveal">
+                    <div class="w-12 h-12 rounded-full gradient-bg text-white font-bold flex items-center justify-center mx-auto mb-4">3</div>
+                    <h3 class="font-bold mb-2">Смета</h3>
+                    <p class="text-gray-500 text-sm">Детальный расчёт</p>
+                </div>
+
+                <div class="process-step text-center reveal">
+                    <div class="w-12 h-12 rounded-full gradient-bg text-white font-bold flex items-center justify-center mx-auto mb-4">4</div>
+                    <h3 class="font-bold mb-2">Договор</h3>
+                    <p class="text-gray-500 text-sm">Фиксируем условия</p>
+                </div>
+
+                <div class="process-step text-center reveal">
+                    <div class="w-12 h-12 rounded-full gradient-bg text-white font-bold flex items-center justify-center mx-auto mb-4">5</div>
+                    <h3 class="font-bold mb-2">Ремонт</h3>
+                    <p class="text-gray-500 text-sm">Работаем, отчитываемся</p>
+                </div>
+
+                <div class="process-step text-center reveal">
+                    <div class="w-12 h-12 rounded-full gradient-bg text-white font-bold flex items-center justify-center mx-auto mb-4">6</div>
+                    <h3 class="font-bold mb-2">Сдача</h3>
+                    <p class="text-gray-500 text-sm">Гарантия 5 лет</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews -->
+    <section id="reviews" class="py-24">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-16">
+                <div class="inline-block text-[#6366f1] font-semibold text-sm uppercase tracking-wider mb-4 reveal">Отзывы</div>
+                <h2 class="text-3xl md:text-4xl font-bold reveal">Что говорят клиенты</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="review-card p-6 reveal">
+                    <div class="flex gap-1 mb-4">
+                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    </div>
+                    <p class="text-gray-600 mb-6">"Долго искали ремонтников — везде или дорого, или страшно. Ребята из Триумф-Юг всё объяснили, показали примеры, сделали как обещали. Рекомендую!"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full gradient-bg flex items-center justify-center text-white font-bold">М</div>
+                        <div>
+                            <div class="font-semibold">Марина К.</div>
+                            <div class="text-gray-500 text-sm">Двушка 58 м²</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card p-6 reveal">
+                    <div class="flex gap-1 mb-4">
+                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    </div>
+                    <p class="text-gray-600 mb-6">"Капиталка в хрущёвке — тот ещё квест. Но парни справились: и коммуникации поменяли, и перепланировку согласовали. Всё чётко по срокам."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full gradient-bg flex items-center justify-center text-white font-bold">Д</div>
+                        <div>
+                            <div class="font-semibold">Дмитрий С.</div>
+                            <div class="text-gray-500 text-sm">Трёшка 72 м²</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="review-card p-6 reveal">
+                    <div class="flex gap-1 mb-4">
+                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                        <svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
+                    </div>
+                    <p class="text-gray-600 mb-6">"Заказывала дизайн-проект и ремонт под ключ. Получилось даже лучше, чем на картинке. Спасибо за терпение и профессионализм!"</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full gradient-bg flex items-center justify-center text-white font-bold">А</div>
+                        <div>
+                            <div class="font-semibold">Алёна П.</div>
+                            <div class="text-gray-500 text-sm">Студия 38 м²</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="py-24 bg-[#f8fafc]">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6">
+            <div class="text-center mb-16">
+                <div class="inline-block text-[#6366f1] font-semibold text-sm uppercase tracking-wider mb-4 reveal">FAQ</div>
+                <h2 class="text-3xl md:text-4xl font-bold reveal">Частые вопросы</h2>
+            </div>
+
+            <div class="space-y-4">
+                <div class="faq-item reveal">
+                    <button class="w-full flex justify-between items-center p-5 text-left" onclick="toggleFaq(this)">
+                        <span class="font-semibold text-gray-900">Как формируется цена?</span>
+                        <svg class="faq-icon w-5 h-5 text-[#6366f1] transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer px-5">
+                        <p class="text-gray-600 pb-5">После замера составляем детальную смету с разбивкой по работам и материалам. Цена фиксируется в договоре и не меняется.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal">
+                    <button class="w-full flex justify-between items-center p-5 text-left" onclick="toggleFaq(this)">
+                        <span class="font-semibold text-gray-900">Можно ли делать ремонт поэтапно?</span>
+                        <svg class="faq-icon w-5 h-5 text-[#6366f1] transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer px-5">
+                        <p class="text-gray-600 pb-5">Да, оплата производится поэтапно: после завершения каждого этапа работ. Это удобно и безопасно для вас.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal">
+                    <button class="w-full flex justify-between items-center p-5 text-left" onclick="toggleFaq(this)">
+                        <span class="font-semibold text-gray-900">Вы работаете с нашими материалами?</span>
+                        <svg class="faq-icon w-5 h-5 text-[#6366f1] transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer px-5">
+                        <p class="text-gray-600 pb-5">Да. Можете закупить сами или доверить нам — привезём по оптовым ценам от проверенных поставщиков.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item reveal">
+                    <button class="w-full flex justify-between items-center p-5 text-left" onclick="toggleFaq(this)">
+                        <span class="font-semibold text-gray-900">Как быстро можете начать?</span>
+                        <svg class="faq-icon w-5 h-5 text-[#6366f1] transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                        </svg>
+                    </button>
+                    <div class="faq-answer px-5">
+                        <p class="text-gray-600 pb-5">Обычно выход на объект через 3-5 дней после подписания договора. При срочности — обсудим индивидуально.</p>
                     </div>
                 </div>
             </div>
@@ -113,24 +724,224 @@
     </section>
 
     <!-- CTA -->
-    <section class="py-32">
-        <div class="max-w-4xl mx-auto px-6 text-center">
-            <div class="font-mono text-accent text-sm mb-6">// Начать проект</div>
-            <h2 class="text-4xl md:text-5xl font-bold mb-8">Готовы к ремонту?</h2>
-            <p class="text-gray-500 mb-12 max-w-xl mx-auto">Напишите нам — обсудим ваш проект и составим предварительную смету</p>
-            <a href="https://wa.me/79892300243" class="bg-accent text-black px-12 py-5 font-bold text-lg hover:glow transition inline-flex items-center gap-3">
-                <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                НАПИСАТЬ В WHATSAPP
-            </a>
+    <section class="py-24 relative overflow-hidden">
+        <div class="absolute inset-0 gradient-bg opacity-[0.03]"></div>
+        <div class="blob-1 top-0 right-0 opacity-50"></div>
+        <div class="blob-2 bottom-0 left-0 opacity-50"></div>
+
+        <div class="max-w-3xl mx-auto px-4 sm:px-6 text-center relative">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6 reveal">
+                Готовы начать <span class="gradient-text">ремонт мечты</span>?
+            </h2>
+            <p class="text-gray-600 text-lg mb-10 reveal">Оставьте заявку — перезвоним за 15 минут и ответим на все вопросы</p>
+
+            <div class="flex flex-col sm:flex-row gap-4 justify-center reveal">
+                <a href="https://wa.me/79892300243" class="btn-primary px-10 py-5 inline-flex items-center justify-center gap-3 text-lg">
+                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                    Написать в WhatsApp
+                </a>
+                <a href="tel:79892300243" class="btn-secondary px-10 py-5 text-center text-lg">
+                    +7 (989) 230-02-43
+                </a>
+            </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="py-8 border-t border-white/10">
-        <div class="max-w-4xl mx-auto px-6 flex justify-between items-center font-mono text-xs text-gray-500">
-            <span>© Триумф-Юг</span>
-            <span>Краснодар // +7 (989) 230-02-43</span>
+    <footer class="py-12 bg-gray-900 text-white">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="grid md:grid-cols-3 gap-8 mb-8">
+                <div>
+                    <div class="flex items-center gap-2 mb-4">
+                        <div class="w-10 h-10 rounded-xl gradient-bg flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">Т</span>
+                        </div>
+                        <span class="font-bold text-xl">Триумф-Юг</span>
+                    </div>
+                    <p class="text-gray-400">Ремонт квартир в Краснодаре с гарантией качества</p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-4">Контакты</h4>
+                    <div class="space-y-2 text-gray-400">
+                        <div>+7 (989) 230-02-43</div>
+                        <div>hello@triumf-yug.ru</div>
+                        <div>ул. Ставропольская, 107</div>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-4">Режим работы</h4>
+                    <div class="text-gray-400">
+                        <div>Пн-Вс: 9:00 — 21:00</div>
+                        <div class="mt-2">Краснодар</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-800 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <div class="text-gray-500 text-sm">
+                    &copy; 2026 Триумф-Юг. Все права защищены.
+                </div>
+            </div>
         </div>
     </footer>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/79892300243"
+       class="fixed bottom-6 right-6 w-14 h-14 rounded-full gradient-bg flex items-center justify-center shadow-lg z-50 hover:scale-110 transition"
+       title="Написать в WhatsApp">
+        <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+    </a>
+
+    <!-- Calculator Modal -->
+    <div id="calculatorModal" class="fixed inset-0 z-50 hidden">
+        <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" onclick="closeCalculator()"></div>
+        <div class="absolute inset-4 sm:inset-auto sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 sm:w-full sm:max-w-md bg-white rounded-3xl shadow-2xl overflow-auto max-h-[90vh]">
+            <div class="p-6 sm:p-8">
+                <div class="flex justify-between items-center mb-6">
+                    <h3 class="font-bold text-2xl">Калькулятор</h3>
+                    <button onclick="closeCalculator()" class="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition">
+                        <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="space-y-6">
+                    <div>
+                        <label class="text-sm text-gray-500 block mb-3">Тип ремонта</label>
+                        <div class="grid grid-cols-2 gap-3">
+                            <button type="button" class="calc-type-btn border-2 border-gray-200 rounded-xl p-4 text-center hover:border-[#6366f1] transition" data-price="3500" onclick="selectType(this)">
+                                <span class="block font-semibold text-gray-900">Косметический</span>
+                                <span class="text-sm text-[#6366f1]">3 500 ₽/м²</span>
+                            </button>
+                            <button type="button" class="calc-type-btn border-2 border-gray-200 rounded-xl p-4 text-center hover:border-[#6366f1] transition" data-price="6500" onclick="selectType(this)">
+                                <span class="block font-semibold text-gray-900">Капитальный</span>
+                                <span class="text-sm text-[#6366f1]">6 500 ₽/м²</span>
+                            </button>
+                            <button type="button" class="calc-type-btn border-2 border-gray-200 rounded-xl p-4 text-center hover:border-[#6366f1] transition" data-price="10000" onclick="selectType(this)">
+                                <span class="block font-semibold text-gray-900">Дизайнерский</span>
+                                <span class="text-sm text-[#6366f1]">10 000 ₽/м²</span>
+                            </button>
+                            <button type="button" class="calc-type-btn border-2 border-gray-200 rounded-xl p-4 text-center hover:border-[#6366f1] transition" data-price="14000" onclick="selectType(this)">
+                                <span class="block font-semibold text-gray-900">Под ключ</span>
+                                <span class="text-sm text-[#6366f1]">14 000 ₽/м²</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-sm text-gray-500 block mb-3">Площадь: <span id="areaValue" class="font-semibold text-gray-900">50</span> м²</label>
+                        <input type="range" id="areaSlider" min="20" max="200" value="50"
+                               class="w-full h-2 bg-gray-200 rounded-full appearance-none cursor-pointer accent-[#6366f1]"
+                               oninput="updateCalculation()">
+                        <div class="flex justify-between text-xs text-gray-400 mt-2">
+                            <span>20 м²</span>
+                            <span>200 м²</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#f8fafc] rounded-2xl p-5">
+                        <span class="text-sm text-gray-500">Примерная стоимость:</span>
+                        <div class="text-3xl font-bold gradient-text mt-1" id="calcResult">—</div>
+                    </div>
+
+                    <a href="https://wa.me/79892300243?text=Хочу%20рассчитать%20стоимость%20ремонта"
+                       class="btn-primary block w-full py-4 text-center">
+                        Получить точный расчёт
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu
+        const menuBtn = document.getElementById('menuBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('open');
+        });
+
+        function closeMobileMenu() {
+            mobileMenu.classList.remove('open');
+        }
+
+        // FAQ
+        function toggleFaq(btn) {
+            const item = btn.parentElement;
+            const wasActive = item.classList.contains('active');
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+            if (!wasActive) {
+                item.classList.add('active');
+                btn.querySelector('.faq-icon').style.transform = 'rotate(180deg)';
+            } else {
+                btn.querySelector('.faq-icon').style.transform = 'rotate(0deg)';
+            }
+            document.querySelectorAll('.faq-item:not(.active) .faq-icon').forEach(icon => {
+                icon.style.transform = 'rotate(0deg)';
+            });
+        }
+
+        // Calculator
+        let selectedPrice = 0;
+
+        function openCalculator() {
+            document.getElementById('calculatorModal').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCalculator() {
+            document.getElementById('calculatorModal').classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        function selectType(btn) {
+            document.querySelectorAll('.calc-type-btn').forEach(b => {
+                b.classList.remove('border-[#6366f1]', 'bg-[#6366f1]/5');
+                b.classList.add('border-gray-200');
+            });
+            btn.classList.remove('border-gray-200');
+            btn.classList.add('border-[#6366f1]', 'bg-[#6366f1]/5');
+            selectedPrice = parseInt(btn.dataset.price);
+            updateCalculation();
+        }
+
+        function updateCalculation() {
+            const area = document.getElementById('areaSlider').value;
+            document.getElementById('areaValue').textContent = area;
+            if (selectedPrice > 0) {
+                const total = selectedPrice * area;
+                document.getElementById('calcResult').textContent = 'от ' + total.toLocaleString('ru-RU') + ' ₽';
+            }
+        }
+
+        // Scroll reveal
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                    closeMobileMenu();
+                }
+            });
+        });
+    </script>
 </body>
 </html>

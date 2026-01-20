@@ -3,132 +3,765 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Строительно-ремонтная фирма | Ремонт квартир Краснодар</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>СРФ — Ремонт квартир в Краснодаре | Фиксированная цена</title>
+    <link rel="icon" href="/favicon.ico?v=2">
+    <meta name="description" content="Ремонт квартир без компромиссов. Фиксированная цена, точные сроки, гарантия 5 лет. Сдаём вовремя или платим неустойку.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        :root { --primary: #7c3aed; --accent: #22d3ee; }
-        body { font-family: 'Roboto', sans-serif; }
-        .font-display { font-family: 'Bebas Neue', sans-serif; letter-spacing: 0.05em; }
-        .text-primary { color: var(--primary); }
-        .bg-primary { background-color: var(--primary); }
-        .text-accent { color: var(--accent); }
-        .bg-accent { background-color: var(--accent); }
-        .gradient-text {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+        :root {
+            --primary: #18181b;
+            --primary-light: #27272a;
+            --accent: #f59e0b;
+            --accent-light: #fbbf24;
+            --accent-dark: #d97706;
+            --text: #fafafa;
+            --text-muted: #a1a1aa;
+            --bg: #09090b;
+            --bg-card: #18181b;
+            --border: #27272a;
+        }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+        }
+
+        /* Subtle grid pattern */
+        .bg-grid {
+            background-image:
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 64px 64px;
+        }
+
+        /* Card hover */
+        .card-hover {
+            transition: all 0.3s ease;
+        }
+
+        .card-hover:hover {
+            border-color: var(--accent);
+            transform: translateY(-4px);
+        }
+
+        /* Reveal animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.6s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Number accent */
+        .number-accent {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1;
+            color: transparent;
+            -webkit-text-stroke: 1px var(--accent);
+            opacity: 0.3;
+        }
+
+        /* Accent bar */
+        .accent-bar {
+            width: 4px;
+            background: var(--accent);
+        }
+
+        /* FAQ */
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        /* Calculator Modal */
+        .modal {
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-content {
+            transform: scale(0.95);
+            transition: all 0.3s ease;
+        }
+
+        .modal.active .modal-content {
+            transform: scale(1);
+        }
+
+        /* Range slider */
+        input[type="range"] {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 4px;
+            border-radius: 2px;
+            background: var(--border);
+            outline: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent);
+            cursor: pointer;
+        }
+
+        /* Mobile menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu.active {
+            transform: translateX(0);
+        }
+
+        /* Counter animation */
+        .counter {
+            font-variant-numeric: tabular-nums;
         }
     </style>
 </head>
-<body class="bg-gray-900 text-white">
-    <!-- Header: Transparent, overlay -->
-    <header class="absolute top-0 left-0 right-0 z-50 py-6">
-        <div class="max-w-7xl mx-auto px-6 flex justify-between items-center">
-            <span class="font-display text-2xl">Строительно-ремонтная фирма</span>
-            <a href="tel:79530806769" class="bg-accent text-gray-900 px-6 py-3 font-bold hover:opacity-90 transition">
-                ПОЗВОНИТЬ
-            </a>
+<body class="bg-grid min-h-screen">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 border-b border-zinc-800/50 bg-zinc-950/80 backdrop-blur-xl">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="flex justify-between items-center h-16">
+                <a href="#" class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-amber-500 flex items-center justify-center">
+                        <span class="font-bold text-zinc-900">СРФ</span>
+                    </div>
+                </a>
+
+                <nav class="hidden md:flex items-center gap-8">
+                    <a href="#services" class="text-zinc-400 hover:text-white transition text-sm font-medium">Услуги</a>
+                    <a href="#benefits" class="text-zinc-400 hover:text-white transition text-sm font-medium">Гарантии</a>
+                    <a href="#portfolio" class="text-zinc-400 hover:text-white transition text-sm font-medium">Работы</a>
+                    <a href="#faq" class="text-zinc-400 hover:text-white transition text-sm font-medium">Вопросы</a>
+                </nav>
+
+                <div class="hidden md:flex items-center gap-4">
+                    <a href="tel:79530806769" class="text-zinc-300 hover:text-white transition text-sm font-medium">
+                        +7 (953) 080-67-69
+                    </a>
+                    <button onclick="openCalc()" class="bg-amber-500 hover:bg-amber-400 text-zinc-900 px-5 py-2 text-sm font-semibold transition">
+                        Рассчитать
+                    </button>
+                </div>
+
+                <button onclick="toggleMobile()" class="md:hidden text-zinc-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                    </svg>
+                </button>
+            </div>
         </div>
     </header>
 
-    <!-- Hero: Full height, big text -->
-    <section class="min-h-screen flex items-center relative overflow-hidden">
-        <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900"></div>
-        <div class="absolute top-1/2 right-0 w-96 h-96 bg-accent/10 rounded-full blur-3xl"></div>
-        <div class="relative max-w-7xl mx-auto px-6 py-32">
-            <p class="text-accent uppercase tracking-widest mb-4">Гарантия 5 лет</p>
-            <h1 class="font-display text-6xl md:text-8xl lg:text-9xl mb-8">
-                Ремонт квартир с гарантией
-            </h1>
-            <p class="text-xl text-gray-400 max-w-xl mb-12">Прозрачные цены, поэтапная оплата, строгое соблюдение сроков.</p>
-            <div class="flex flex-wrap gap-4">
-                <a href="https://wa.me/79530806769" class="bg-accent text-gray-900 px-10 py-5 font-bold text-lg hover:opacity-90 transition inline-flex items-center gap-3">
-                    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-                    НАПИСАТЬ
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu fixed inset-0 z-50 bg-zinc-950">
+        <div class="p-6">
+            <div class="flex justify-between items-center mb-12">
+                <span class="font-bold text-lg">СРФ</span>
+                <button onclick="toggleMobile()" class="text-zinc-400">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+            </div>
+            <nav class="flex flex-col gap-6">
+                <a href="#services" onclick="toggleMobile()" class="text-2xl font-semibold">Услуги</a>
+                <a href="#benefits" onclick="toggleMobile()" class="text-2xl font-semibold">Гарантии</a>
+                <a href="#portfolio" onclick="toggleMobile()" class="text-2xl font-semibold">Работы</a>
+                <a href="#faq" onclick="toggleMobile()" class="text-2xl font-semibold">Вопросы</a>
+            </nav>
+            <div class="mt-12 pt-8 border-t border-zinc-800">
+                <a href="tel:79530806769" class="block text-xl font-semibold text-amber-500 mb-4">+7 (953) 080-67-69</a>
+                <a href="https://wa.me/79530806769" class="block bg-amber-500 text-zinc-900 py-4 text-center font-semibold">
+                    Написать в WhatsApp
                 </a>
-                <a href="tel:79530806769" class="border-2 border-white/30 px-10 py-5 font-bold text-lg hover:border-white transition">
+            </div>
+        </div>
+    </div>
+
+    <!-- Hero -->
+    <section class="pt-24 pb-16 md:pt-32 md:pb-24 border-b border-zinc-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="max-w-3xl">
+                <div class="inline-flex items-center gap-2 text-amber-500 text-sm font-medium mb-6 reveal">
+                    <div class="w-2 h-2 bg-amber-500"></div>
+                    15 лет на рынке
+                </div>
+
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight mb-6 reveal">
+                    Ремонт без<br>
+                    <span class="text-amber-500">компромиссов</span>
+                </h1>
+
+                <p class="text-xl text-zinc-400 mb-8 max-w-xl reveal">
+                    Фиксированная цена. Точные сроки. Гарантия 5 лет. Сдаём вовремя или платим неустойку.
+                </p>
+
+                <div class="flex flex-wrap gap-4 reveal">
+                    <a href="https://wa.me/79530806769" class="bg-amber-500 hover:bg-amber-400 text-zinc-900 px-8 py-4 font-semibold transition inline-flex items-center gap-2">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                        </svg>
+                        Обсудить проект
+                    </a>
+                    <a href="tel:79530806769" class="border border-zinc-700 hover:border-zinc-500 text-white px-8 py-4 font-semibold transition">
+                        +7 (953) 080-67-69
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="py-16 border-b border-zinc-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <div class="reveal">
+                    <div class="text-4xl md:text-5xl font-bold text-amber-500 mb-2 counter">15</div>
+                    <div class="text-zinc-500 text-sm uppercase tracking-wider">лет опыта</div>
+                </div>
+                <div class="reveal" style="transition-delay: 0.1s;">
+                    <div class="text-4xl md:text-5xl font-bold text-amber-500 mb-2 counter">1200+</div>
+                    <div class="text-zinc-500 text-sm uppercase tracking-wider">объектов</div>
+                </div>
+                <div class="reveal" style="transition-delay: 0.2s;">
+                    <div class="text-4xl md:text-5xl font-bold text-amber-500 mb-2 counter">0</div>
+                    <div class="text-zinc-500 text-sm uppercase tracking-wider">просрочек</div>
+                </div>
+                <div class="reveal" style="transition-delay: 0.3s;">
+                    <div class="text-4xl md:text-5xl font-bold text-amber-500 mb-2 counter">5</div>
+                    <div class="text-zinc-500 text-sm uppercase tracking-wider">лет гарантии</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="py-16 md:py-24 border-b border-zinc-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="mb-16 reveal">
+                <div class="text-amber-500 text-sm font-medium uppercase tracking-wider mb-4">Услуги</div>
+                <h2 class="text-3xl md:text-4xl font-bold">Что мы делаем</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6">
+                <div class="card-hover border border-zinc-800 p-8 reveal">
+                    <div class="flex justify-between items-start mb-6">
+                        <h3 class="text-xl font-bold">Демонтаж</h3>
+                        <span class="text-amber-500 font-semibold">от 800 ₽/м²</span>
+                    </div>
+                    <p class="text-zinc-400 mb-4">Снос стен, удаление покрытий, вывоз мусора. Быстро и чисто.</p>
+                    <div class="text-zinc-600 text-sm">Срок: 1-3 дня</div>
+                </div>
+
+                <div class="card-hover border border-zinc-800 p-8 reveal" style="transition-delay: 0.1s;">
+                    <div class="flex justify-between items-start mb-6">
+                        <h3 class="text-xl font-bold">Черновой</h3>
+                        <span class="text-amber-500 font-semibold">от 4 500 ₽/м²</span>
+                    </div>
+                    <p class="text-zinc-400 mb-4">Стяжка, штукатурка, электрика, сантехника. Основа для идеала.</p>
+                    <div class="text-zinc-600 text-sm">Срок: 3-4 недели</div>
+                </div>
+
+                <div class="card-hover border border-zinc-800 p-8 reveal" style="transition-delay: 0.2s;">
+                    <div class="flex justify-between items-start mb-6">
+                        <h3 class="text-xl font-bold">Капитальный</h3>
+                        <span class="text-amber-500 font-semibold">от 7 000 ₽/м²</span>
+                    </div>
+                    <p class="text-zinc-400 mb-4">Полная перепланировка. Замена всего — от проводки до плитки.</p>
+                    <div class="text-zinc-600 text-sm">Срок: 2-3 месяца</div>
+                </div>
+
+                <div class="card-hover border border-zinc-800 p-8 reveal" style="transition-delay: 0.3s;">
+                    <div class="flex justify-between items-start mb-6">
+                        <h3 class="text-xl font-bold">Под ключ</h3>
+                        <span class="text-amber-500 font-semibold">от 12 000 ₽/м²</span>
+                    </div>
+                    <p class="text-zinc-400 mb-4">От голого бетона до заезжай и живи. Включая мебель.</p>
+                    <div class="text-zinc-600 text-sm">Срок: 3-5 месяцев</div>
+                </div>
+            </div>
+
+            <div class="mt-12 text-center reveal">
+                <button onclick="openCalc()" class="bg-amber-500 hover:bg-amber-400 text-zinc-900 px-8 py-4 font-semibold transition inline-flex items-center gap-2">
+                    Рассчитать стоимость
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits -->
+    <section id="benefits" class="py-16 md:py-24 border-b border-zinc-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="mb-16 reveal">
+                <div class="text-amber-500 text-sm font-medium uppercase tracking-wider mb-4">Гарантии</div>
+                <h2 class="text-3xl md:text-4xl font-bold">Почему мы</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="flex gap-6 reveal">
+                    <div class="number-accent">01</div>
+                    <div>
+                        <h3 class="text-lg font-bold mb-2">Цена = Договор</h3>
+                        <p class="text-zinc-400 text-sm">Смета — закон. Ни рубля сверху. Хитрости не наш метод.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6 reveal" style="transition-delay: 0.1s;">
+                    <div class="number-accent">02</div>
+                    <div>
+                        <h3 class="text-lg font-bold mb-2">Срок = Дата</h3>
+                        <p class="text-zinc-400 text-sm">Просрочка = неустойка. Мы не опаздываем. Никогда.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6 reveal" style="transition-delay: 0.2s;">
+                    <div class="number-accent">03</div>
+                    <div>
+                        <h3 class="text-lg font-bold mb-2">Оплата по факту</h3>
+                        <p class="text-zinc-400 text-sm">Сделали этап — заплатили. Не раньше. Ваши деньги под защитой.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6 reveal" style="transition-delay: 0.3s;">
+                    <div class="number-accent">04</div>
+                    <div>
+                        <h3 class="text-lg font-bold mb-2">Свои бригады</h3>
+                        <p class="text-zinc-400 text-sm">Никаких субподрядчиков. Наши люди = наша ответственность.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6 reveal" style="transition-delay: 0.4s;">
+                    <div class="number-accent">05</div>
+                    <div>
+                        <h3 class="text-lg font-bold mb-2">Ежедневный контроль</h3>
+                        <p class="text-zinc-400 text-sm">Фото и видео каждый день. Вы видите всё, даже если вы в отпуске.</p>
+                    </div>
+                </div>
+
+                <div class="flex gap-6 reveal" style="transition-delay: 0.5s;">
+                    <div class="number-accent">06</div>
+                    <div>
+                        <h3 class="text-lg font-bold mb-2">Гарантия 5 лет</h3>
+                        <p class="text-zinc-400 text-sm">Что-то отвалится — приедем и исправим. Бесплатно. Без разговоров.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process -->
+    <section class="py-16 md:py-24 border-b border-zinc-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="mb-16 reveal">
+                <div class="text-amber-500 text-sm font-medium uppercase tracking-wider mb-4">Процесс</div>
+                <h2 class="text-3xl md:text-4xl font-bold">Как мы работаем</h2>
+            </div>
+
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="border-l-4 border-amber-500 pl-6 py-4 reveal">
+                    <div class="text-amber-500 text-sm font-medium mb-2">Шаг 01</div>
+                    <h3 class="font-bold mb-2">Заявка</h3>
+                    <p class="text-zinc-400 text-sm">Звонок или WhatsApp. Обсуждаем задачу.</p>
+                </div>
+
+                <div class="border-l-4 border-zinc-700 pl-6 py-4 reveal" style="transition-delay: 0.1s;">
+                    <div class="text-zinc-500 text-sm font-medium mb-2">Шаг 02</div>
+                    <h3 class="font-bold mb-2">Замер</h3>
+                    <p class="text-zinc-400 text-sm">Приезжаем бесплатно. Меряем. Считаем.</p>
+                </div>
+
+                <div class="border-l-4 border-zinc-700 pl-6 py-4 reveal" style="transition-delay: 0.2s;">
+                    <div class="text-zinc-500 text-sm font-medium mb-2">Шаг 03</div>
+                    <h3 class="font-bold mb-2">Смета</h3>
+                    <p class="text-zinc-400 text-sm">Детальный расчёт. Цена — в камне.</p>
+                </div>
+
+                <div class="border-l-4 border-zinc-700 pl-6 py-4 reveal" style="transition-delay: 0.3s;">
+                    <div class="text-zinc-500 text-sm font-medium mb-2">Шаг 04</div>
+                    <h3 class="font-bold mb-2">Договор</h3>
+                    <p class="text-zinc-400 text-sm">Всё официально. Сроки, суммы, штрафы.</p>
+                </div>
+
+                <div class="border-l-4 border-zinc-700 pl-6 py-4 reveal" style="transition-delay: 0.4s;">
+                    <div class="text-zinc-500 text-sm font-medium mb-2">Шаг 05</div>
+                    <h3 class="font-bold mb-2">Работа</h3>
+                    <p class="text-zinc-400 text-sm">Делаем. Отчитываемся. Не халтурим.</p>
+                </div>
+
+                <div class="border-l-4 border-amber-500 pl-6 py-4 reveal" style="transition-delay: 0.5s;">
+                    <div class="text-amber-500 text-sm font-medium mb-2">Шаг 06</div>
+                    <h3 class="font-bold mb-2">Сдача</h3>
+                    <p class="text-zinc-400 text-sm">Принимаете. Подписываем. Гарантия.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section id="portfolio" class="py-16 md:py-24 border-b border-zinc-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="mb-16 reveal">
+                <div class="text-amber-500 text-sm font-medium uppercase tracking-wider mb-4">Портфолио</div>
+                <h2 class="text-3xl md:text-4xl font-bold">Наши работы</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="group reveal">
+                    <div class="aspect-[4/3] overflow-hidden mb-4">
+                        <img src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600" alt="Студия 45м²" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+                    </div>
+                    <h3 class="font-bold mb-1">Студия 45м² — Лофт</h3>
+                    <p class="text-zinc-500 text-sm">Капитальный ремонт · 2.5 месяца</p>
+                </div>
+
+                <div class="group reveal" style="transition-delay: 0.1s;">
+                    <div class="aspect-[4/3] overflow-hidden mb-4">
+                        <img src="https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=600" alt="Двушка 78м²" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+                    </div>
+                    <h3 class="font-bold mb-1">Двушка 78м² — Минимализм</h3>
+                    <p class="text-zinc-500 text-sm">Ремонт под ключ · 3 месяца</p>
+                </div>
+
+                <div class="group reveal" style="transition-delay: 0.2s;">
+                    <div class="aspect-[4/3] overflow-hidden mb-4">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600" alt="Трёшка 120м²" class="w-full h-full object-cover grayscale group-hover:grayscale-0 transition duration-500">
+                    </div>
+                    <h3 class="font-bold mb-1">Трёшка 120м² — Классика</h3>
+                    <p class="text-zinc-500 text-sm">Дизайнерский ремонт · 4 месяца</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="py-16 md:py-24 border-b border-zinc-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="mb-16 reveal">
+                <div class="text-amber-500 text-sm font-medium uppercase tracking-wider mb-4">Отзывы</div>
+                <h2 class="text-3xl md:text-4xl font-bold">Что говорят клиенты</h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+                <div class="border border-zinc-800 p-8 reveal">
+                    <div class="flex gap-1 mb-4">
+                        <span class="text-amber-500">★</span>
+                        <span class="text-amber-500">★</span>
+                        <span class="text-amber-500">★</span>
+                        <span class="text-amber-500">★</span>
+                        <span class="text-amber-500">★</span>
+                    </div>
+                    <p class="text-zinc-300 mb-6">"Жёстко, чётко, по делу. Сказали 60 дней — сдали на 58-й. Цена — копейка в копейку. Мужики, респект."</p>
+                    <div>
+                        <div class="font-semibold">Виктор Н.</div>
+                        <div class="text-zinc-500 text-sm">Двушка 65 м²</div>
+                    </div>
+                </div>
+
+                <div class="border border-zinc-800 p-8 reveal" style="transition-delay: 0.1s;">
+                    <div class="flex gap-1 mb-4">
+                        <span class="text-amber-500">★</span>
+                        <span class="text-amber-500">★</span>
+                        <span class="text-amber-500">★</span>
+                        <span class="text-amber-500">★</span>
+                        <span class="text-amber-500">★</span>
+                    </div>
+                    <p class="text-zinc-300 mb-6">"Боялась ремонта как огня. Эти ребята показали, что можно без нервов. Всё прозрачно, всё понятно."</p>
+                    <div>
+                        <div class="font-semibold">Елена К.</div>
+                        <div class="text-zinc-500 text-sm">Студия 42 м²</div>
+                    </div>
+                </div>
+
+                <div class="border border-zinc-800 p-8 reveal" style="transition-delay: 0.2s;">
+                    <div class="flex gap-1 mb-4">
+                        <span class="text-amber-500">★</span>
+                        <span class="text-amber-500">★</span>
+                        <span class="text-amber-500">★</span>
+                        <span class="text-amber-500">★</span>
+                        <span class="text-amber-500">★</span>
+                    </div>
+                    <p class="text-zinc-300 mb-6">"Третий ремонт в жизни. Первый раз — без головной боли. Буду советовать всем."</p>
+                    <div>
+                        <div class="font-semibold">Андрей М.</div>
+                        <div class="text-zinc-500 text-sm">Трёшка 95 м²</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="py-16 md:py-24 border-b border-zinc-800">
+        <div class="max-w-3xl mx-auto px-4 sm:px-6">
+            <div class="mb-16 reveal">
+                <div class="text-amber-500 text-sm font-medium uppercase tracking-wider mb-4">FAQ</div>
+                <h2 class="text-3xl md:text-4xl font-bold">Частые вопросы</h2>
+            </div>
+
+            <div class="space-y-4">
+                <div class="faq-item border border-zinc-800 reveal">
+                    <button class="w-full px-6 py-5 flex items-center justify-between text-left" onclick="toggleFaq(this)">
+                        <span class="font-semibold">Почему у вас дороже чем у частников?</span>
+                        <span class="faq-icon text-amber-500 text-2xl transition-transform">+</span>
+                    </button>
+                    <div class="faq-answer px-6">
+                        <p class="pb-5 text-zinc-400">Потому что мы не исчезаем после получения денег. Договор, гарантия, неустойка за просрочку. Частник даст вам это? Вряд ли.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item border border-zinc-800 reveal" style="transition-delay: 0.1s;">
+                    <button class="w-full px-6 py-5 flex items-center justify-between text-left" onclick="toggleFaq(this)">
+                        <span class="font-semibold">А если в процессе нужно что-то изменить?</span>
+                        <span class="faq-icon text-amber-500 text-2xl transition-transform">+</span>
+                    </button>
+                    <div class="faq-answer px-6">
+                        <p class="pb-5 text-zinc-400">Меняем. Пересчитываем смету. Подписываем допсоглашение. Всё прозрачно.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item border border-zinc-800 reveal" style="transition-delay: 0.2s;">
+                    <button class="w-full px-6 py-5 flex items-center justify-between text-left" onclick="toggleFaq(this)">
+                        <span class="font-semibold">Вы работаете с моими материалами?</span>
+                        <span class="faq-icon text-amber-500 text-2xl transition-transform">+</span>
+                    </button>
+                    <div class="faq-answer px-6">
+                        <p class="pb-5 text-zinc-400">Да. Хотите свои — везите. Хотите наши — закупим по оптовым ценам без накрутки.</p>
+                    </div>
+                </div>
+
+                <div class="faq-item border border-zinc-800 reveal" style="transition-delay: 0.3s;">
+                    <button class="w-full px-6 py-5 flex items-center justify-between text-left" onclick="toggleFaq(this)">
+                        <span class="font-semibold">Как быстро можете начать?</span>
+                        <span class="faq-icon text-amber-500 text-2xl transition-transform">+</span>
+                    </button>
+                    <div class="faq-answer px-6">
+                        <p class="pb-5 text-zinc-400">Обычно 3-5 дней после подписания договора. Если горит — обсудим.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-16 md:py-24">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-6 reveal">Готовы начать?</h2>
+            <p class="text-xl text-zinc-400 mb-8 max-w-xl mx-auto reveal">Оставьте заявку — перезвоним за 5 минут и ответим на все вопросы</p>
+            <div class="flex flex-wrap justify-center gap-4 reveal">
+                <a href="https://wa.me/79530806769" class="bg-amber-500 hover:bg-amber-400 text-zinc-900 px-8 py-4 font-semibold transition inline-flex items-center gap-2">
+                    Написать в WhatsApp
+                </a>
+                <a href="tel:79530806769" class="border border-zinc-700 hover:border-zinc-500 text-white px-8 py-4 font-semibold transition">
                     +7 (953) 080-67-69
                 </a>
             </div>
         </div>
     </section>
 
-    <!-- Stats: Big numbers -->
-    <section class="py-20 bg-accent">
-        <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-3 gap-8">
-            
-            <div class="text-center">
-                <div class="font-display text-7xl text-gray-900">15</div>
-                <div class="text-gray-900/70 uppercase tracking-wider">лет работы</div>
-            </div>
-            
-            <div class="text-center">
-                <div class="font-display text-7xl text-gray-900">1000+</div>
-                <div class="text-gray-900/70 uppercase tracking-wider">ремонтов</div>
-            </div>
-            
-            <div class="text-center">
-                <div class="font-display text-7xl text-gray-900">3 года</div>
-                <div class="text-gray-900/70 uppercase tracking-wider">гарантия</div>
-            </div>
-            
-        </div>
-    </section>
-
-    <!-- Benefits: Cards with numbers -->
-    <section class="py-24 bg-gray-900">
-        <div class="max-w-7xl mx-auto px-6">
-            <h2 class="font-display text-5xl md:text-6xl mb-16 text-center">НАШИ ПРЕИМУЩЕСТВА</h2>
-            <div class="grid md:grid-cols-2 gap-8">
-                <div class="bg-gray-800 p-8 relative overflow-hidden group hover:bg-gray-700 transition">
-                    <span class="absolute -top-4 -right-4 font-display text-9xl text-white/5 group-hover:text-accent/10 transition">01</span>
-                    <h3 class="font-display text-2xl mb-4 relative">ТОЧНЫЕ СРОКИ</h3>
-                    <p class="text-gray-400 relative">Фиксируем дату сдачи в договоре. За просрочку платим неустойку.</p>
-                </div>
-                <div class="bg-gray-800 p-8 relative overflow-hidden group hover:bg-gray-700 transition">
-                    <span class="absolute -top-4 -right-4 font-display text-9xl text-white/5 group-hover:text-accent/10 transition">02</span>
-                    <h3 class="font-display text-2xl mb-4 relative">ФИКСИРОВАННАЯ ЦЕНА</h3>
-                    <p class="text-gray-400 relative">Детальная смета. Никаких скрытых платежей.</p>
-                </div>
-                <div class="bg-gray-800 p-8 relative overflow-hidden group hover:bg-gray-700 transition">
-                    <span class="absolute -top-4 -right-4 font-display text-9xl text-white/5 group-hover:text-accent/10 transition">03</span>
-                    <h3 class="font-display text-2xl mb-4 relative">ОПЛАТА ПО ЭТАПАМ</h3>
-                    <p class="text-gray-400 relative">Платите только за выполненную работу.</p>
-                </div>
-                <div class="bg-gray-800 p-8 relative overflow-hidden group hover:bg-gray-700 transition">
-                    <span class="absolute -top-4 -right-4 font-display text-9xl text-white/5 group-hover:text-accent/10 transition">04</span>
-                    <h3 class="font-display text-2xl mb-4 relative">ГАРАНТИЯ 5 ЛЕТ</h3>
-                    <p class="text-gray-400 relative">Официальная гарантия на все виды работ.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CTA: Full width -->
-    <section class="py-32 bg-primary relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10">
-            <div class="absolute top-0 left-1/4 w-64 h-64 bg-white rounded-full blur-3xl"></div>
-            <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-accent rounded-full blur-3xl"></div>
-        </div>
-        <div class="max-w-4xl mx-auto px-6 text-center relative">
-            <h2 class="font-display text-5xl md:text-7xl mb-8">НАЧНЁМ РЕМОНТ?</h2>
-            <p class="text-xl text-white/70 mb-12">Оставьте заявку — перезвоним за 5 минут</p>
-            <a href="https://wa.me/79530806769" class="bg-accent text-gray-900 px-12 py-6 font-bold text-xl hover:opacity-90 transition inline-block">
-                ОБСУДИТЬ ПРОЕКТ
-            </a>
-        </div>
-    </section>
-
     <!-- Footer -->
-    <footer class="py-12 bg-gray-900 border-t border-gray-800">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-6">
-            <span class="font-display text-xl">Строительно-ремонтная фирма</span>
-            <div class="flex gap-8 text-gray-400">
-                <span>Краснодар</span>
-                <a href="tel:79530806769" class="hover:text-white transition">+7 (953) 080-67-69</a>
+    <footer class="py-12 border-t border-zinc-800">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="grid md:grid-cols-4 gap-8 mb-12">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 bg-amber-500 flex items-center justify-center">
+                            <span class="font-bold text-zinc-900">СРФ</span>
+                        </div>
+                    </div>
+                    <p class="text-zinc-500 text-sm max-w-xs">Строим. Ремонтируем. Фиксируем цену. Сдаём в срок или платим неустойку.</p>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-4">Контакты</h4>
+                    <div class="space-y-2 text-zinc-400 text-sm">
+                        <a href="tel:79530806769" class="block hover:text-white transition">+7 (953) 080-67-69</a>
+                        <a href="mailto:srf@stroyka.ru" class="block hover:text-white transition">srf@stroyka.ru</a>
+                        <p>Краснодар, ул. Промышленная, 28</p>
+                    </div>
+                </div>
+
+                <div>
+                    <h4 class="font-semibold mb-4">Режим работы</h4>
+                    <div class="text-zinc-400 text-sm">
+                        <p>Без выходных</p>
+                        <p>8:00 — 22:00</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-8 border-t border-zinc-800 flex flex-col sm:flex-row justify-between items-center gap-4">
+                <p class="text-zinc-600 text-sm">© 2026 СРФ. Все права защищены.</p>
             </div>
         </div>
     </footer>
+
+    <!-- WhatsApp Float -->
+    <a href="https://wa.me/79530806769" class="fixed bottom-6 right-6 w-14 h-14 bg-green-500 hover:bg-green-400 rounded-full flex items-center justify-center z-40 transition shadow-lg" title="WhatsApp">
+        <svg class="w-7 h-7 text-white" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+    </a>
+
+    <!-- Calculator Modal -->
+    <div id="calcModal" class="modal fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80">
+        <div class="modal-content bg-zinc-900 border border-zinc-800 w-full max-w-md p-8 relative">
+            <button onclick="closeCalc()" class="absolute top-4 right-4 text-zinc-500 hover:text-white transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+
+            <h3 class="text-xl font-bold mb-6">Калькулятор</h3>
+
+            <div class="space-y-6">
+                <div>
+                    <label class="block text-sm font-medium text-zinc-400 mb-3">Тип работ</label>
+                    <div class="grid grid-cols-2 gap-3">
+                        <label class="cursor-pointer">
+                            <input type="radio" name="calcType" value="800" class="hidden peer">
+                            <div class="peer-checked:border-amber-500 peer-checked:bg-amber-500/10 border border-zinc-700 p-3 text-center transition">
+                                <div class="font-semibold text-sm">Демонтаж</div>
+                                <div class="text-xs text-zinc-500">от 800 ₽/м²</div>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="calcType" value="4500" class="hidden peer">
+                            <div class="peer-checked:border-amber-500 peer-checked:bg-amber-500/10 border border-zinc-700 p-3 text-center transition">
+                                <div class="font-semibold text-sm">Черновой</div>
+                                <div class="text-xs text-zinc-500">от 4 500 ₽/м²</div>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="calcType" value="7000" class="hidden peer" checked>
+                            <div class="peer-checked:border-amber-500 peer-checked:bg-amber-500/10 border border-zinc-700 p-3 text-center transition">
+                                <div class="font-semibold text-sm">Капитальный</div>
+                                <div class="text-xs text-zinc-500">от 7 000 ₽/м²</div>
+                            </div>
+                        </label>
+                        <label class="cursor-pointer">
+                            <input type="radio" name="calcType" value="12000" class="hidden peer">
+                            <div class="peer-checked:border-amber-500 peer-checked:bg-amber-500/10 border border-zinc-700 p-3 text-center transition">
+                                <div class="font-semibold text-sm">Под ключ</div>
+                                <div class="text-xs text-zinc-500">от 12 000 ₽/м²</div>
+                            </div>
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-medium text-zinc-400 mb-3">Площадь: <span id="areaValue" class="text-amber-500">50</span> м²</label>
+                    <input type="range" id="areaSlider" min="20" max="300" value="50" class="w-full" oninput="updateCalc()">
+                    <div class="flex justify-between text-xs text-zinc-600 mt-1">
+                        <span>20 м²</span>
+                        <span>300 м²</span>
+                    </div>
+                </div>
+
+                <div class="bg-zinc-800 p-6 text-center">
+                    <div class="text-zinc-500 text-sm mb-1">Примерная стоимость</div>
+                    <div class="text-3xl font-bold text-amber-500" id="calcResult">350 000 ₽</div>
+                </div>
+
+                <a href="https://wa.me/79530806769?text=Хочу узнать точную стоимость ремонта" class="block bg-amber-500 hover:bg-amber-400 text-zinc-900 py-4 text-center font-semibold transition">
+                    Получить точный расчёт
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleMobile() {
+            document.getElementById('mobileMenu').classList.toggle('active');
+        }
+
+        function toggleFaq(btn) {
+            const item = btn.parentElement;
+            const wasActive = item.classList.contains('active');
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+            if (!wasActive) item.classList.add('active');
+        }
+
+        function openCalc() {
+            document.getElementById('calcModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeCalc() {
+            document.getElementById('calcModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function updateCalc() {
+            const area = document.getElementById('areaSlider').value;
+            const type = document.querySelector('input[name="calcType"]:checked').value;
+            const result = area * type;
+            document.getElementById('areaValue').textContent = area;
+            document.getElementById('calcResult').textContent = result.toLocaleString('ru-RU') + ' ₽';
+        }
+
+        document.querySelectorAll('input[name="calcType"]').forEach(input => {
+            input.addEventListener('change', updateCalc);
+        });
+
+        document.getElementById('calcModal').addEventListener('click', function(e) {
+            if (e.target === this) closeCalc();
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
 </body>
 </html>

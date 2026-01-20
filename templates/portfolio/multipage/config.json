@@ -1,0 +1,29 @@
+{
+  "company": "Технологии комфорта",
+  "tagline": "Ремонт квартир с гарантией результата",
+  "city": "Краснодар",
+  "phone": "+7 (928) 275-54-56",
+  "phone_raw": "79282755456",
+  "whatsapp": "79282755456",
+  "email": "info@tech-komfort.ru",
+  "address": "ул. Красная, 180, офис 312",
+  "working_hours": "Пн-Сб: 9:00 — 19:00",
+
+  "colors": {
+    "primary": "#1e40af",
+    "primary_light": "#3b82f6",
+    "primary_dark": "#1e3a8a",
+    "accent": "#f59e0b",
+    "text": "#1f2937",
+    "text_light": "#6b7280",
+    "bg": "#ffffff",
+    "bg_gray": "#f9fafb"
+  },
+
+  "stats": [
+    { "value": "12", "label": "лет на рынке" },
+    { "value": "850", "label": "выполненных проектов" },
+    { "value": "98", "label": "% довольных клиентов" },
+    { "value": "5", "label": "лет гарантии" }
+  ]
+}
