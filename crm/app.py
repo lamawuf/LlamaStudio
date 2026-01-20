@@ -339,7 +339,7 @@ def enrich_socials():
     # Получаем лидов без соцсетей
     leads = Lead.query.filter(
         (Lead.social.is_(None) | (Lead.social == ''))
-    ).limit(50).all()
+    ).limit(10).all()
 
     updated = 0
     for lead in leads:
@@ -352,7 +352,7 @@ def enrich_socials():
                 lead.url_2gis = url_2gis
             updated += 1
 
-        time_module.sleep(0.4)
+        time_module.sleep(0.2)
 
     db.session.commit()
 
