@@ -282,7 +282,7 @@
                     <td class="p-4">${formatPhones(lead.phones, lead.contact_phone)}</td>
                     <td class="p-4">${formatSocials(lead.social, lead.phones)}</td>
                     <td class="p-4">
-                        <select onchange="quickUpdateStatus(${lead.id}, this.value)"
+                        <select onchange="quickUpdateStatus(${lead.id}, this.value, this)"
                             class="status-select status-${lead.status} border-0 text-white">
                             <option value="waiting" ${lead.status === 'waiting' ? 'selected' : ''}>Ждёт звонка</option>
                             <option value="no_answer" ${lead.status === 'no_answer' ? 'selected' : ''}>Не дозвонился</option>
@@ -339,14 +339,18 @@
         }
 
         // Quick status update from dropdown
-        async function quickUpdateStatus(leadId, newStatus) {
+        async function quickUpdateStatus(leadId, newStatus, selectEl) {
             await fetch(`/api/leads/${leadId}`, {
                 method: 'PATCH',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ status: newStatus })
             });
+            // Только обновляем статистику, список остаётся на месте
             loadStats();
-            loadLeads();
+            // Обновляем цвет dropdown
+            if (selectEl) {
+                selectEl.className = `status-select status-${newStatus} border-0 text-white`;
+            }
         }
 
         function formatSocials(social, phones) {
