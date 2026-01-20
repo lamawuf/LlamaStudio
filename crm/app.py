@@ -377,6 +377,15 @@ def init_db():
     """Создаём таблицы и базовые данные"""
     db.create_all()
 
+    # Миграция: добавляем contact_phone если его нет
+    try:
+        from sqlalchemy import text
+        with db.engine.connect() as conn:
+            conn.execute(text("ALTER TABLE leads ADD COLUMN IF NOT EXISTS contact_phone VARCHAR(50)"))
+            conn.commit()
+    except Exception as e:
+        pass  # Столбец уже существует или SQLite
+
     # Дефолтные города
     default_cities = ['Краснодар', 'Москва', 'Сочи', 'Ростов-на-Дону', 'Новороссийск']
     for city_name in default_cities:
