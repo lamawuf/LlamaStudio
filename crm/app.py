@@ -114,6 +114,7 @@ def stats():
     return jsonify({
         'total': query.count(),
         'waiting': query.filter_by(status='waiting').count(),
+        'no_answer': query.filter_by(status='no_answer').count(),
         'callback': query.filter_by(status='callback').count(),
         'rejected': query.filter_by(status='rejected').count(),
         'working': query.filter_by(status='working').count(),
@@ -189,7 +190,7 @@ def update_lead(lead_id):
         )
         db.session.add(history)
         lead.status = data['status']
-        if data['status'] in ['callback', 'rejected', 'working', 'completed']:
+        if data['status'] in ['no_answer', 'callback', 'rejected', 'working', 'completed']:
             lead.called_at = datetime.utcnow()
 
     if 'notes' in data:
@@ -281,6 +282,77 @@ ORG:{lead.name or ''}"""
         mimetype='text/vcard',
         headers={'Content-Disposition': 'attachment; filename=leads_contacts.vcf'}
     )
+
+# ============== ENRICH SOCIALS ==============
+
+@app.route('/api/enrich')
+@requires_auth
+def enrich_socials():
+    """Обогащает лидов соцсетями из 2GIS API"""
+    import re
+    import time as time_module
+
+    API_KEY = 'rurbbn3446'
+    HEADERS = {'User-Agent': 'Mozilla/5.0', 'Accept': 'application/json'}
+
+    def extract_firm_id(url_2gis):
+        if not url_2gis:
+            return None
+        match = re.search(r'/firm/(\d+)', url_2gis)
+        return match.group(1) if match else None
+
+    def get_socials(firm_id):
+        import requests
+        url = f"https://catalog.api.2gis.com/3.0/items/byid"
+        params = {'id': firm_id, 'fields': 'items.contact_groups', 'key': API_KEY}
+        try:
+            resp = requests.get(url, params=params, headers=HEADERS, timeout=10)
+            data = resp.json()
+            items = data.get('result', {}).get('items', [])
+            if not items:
+                return None
+            socials = []
+            for group in items[0].get('contact_groups', []):
+                for contact in group.get('contacts', []):
+                    t = contact.get('type', '')
+                    if t == 'whatsapp': socials.append('WhatsApp')
+                    elif t == 'telegram': socials.append('Telegram')
+                    elif t == 'viber': socials.append('Viber')
+                    elif t == 'vkontakte': socials.append('VK')
+                    elif t == 'instagram': socials.append('Instagram')
+            return ', '.join(sorted(set(socials))) if socials else None
+        except:
+            return None
+
+    # Получаем лидов без соцсетей но с url_2gis
+    leads = Lead.query.filter(
+        Lead.url_2gis.isnot(None),
+        (Lead.social.is_(None) | (Lead.social == ''))
+    ).limit(100).all()  # Лимит чтобы не таймаутнуться
+
+    updated = 0
+    for lead in leads:
+        firm_id = extract_firm_id(lead.url_2gis)
+        if not firm_id:
+            continue
+        social = get_socials(firm_id)
+        if social:
+            lead.social = social
+            updated += 1
+        time_module.sleep(0.3)  # Не спамим API
+
+    db.session.commit()
+
+    remaining = Lead.query.filter(
+        Lead.url_2gis.isnot(None),
+        (Lead.social.is_(None) | (Lead.social == ''))
+    ).count()
+
+    return jsonify({
+        'updated': updated,
+        'remaining': remaining,
+        'message': f'Обновлено {updated} лидов. Осталось без соцсетей: {remaining}'
+    })
 
 # ============== INIT ==============
 

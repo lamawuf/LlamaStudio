@@ -162,17 +162,17 @@ def search_2gis_api(city: str, query: str) -> list:
     print(f"[2GIS] Ищу: {query} в {city}")
 
     # Публичный API endpoint (может потребовать ключ в будущем)
-    url = f"https://catalog.api.2gis.com/3.0/items"
+    api_url = f"https://catalog.api.2gis.com/3.0/items"
     params = {
         'q': query,
         'region_id': region_id,
         'page_size': 50,
-        'fields': 'items.contact_groups,items.name_ex',
+        'fields': 'items.contact_groups,items.name_ex,items.external_content',
         'key': 'rurbbn3446'  # Публичный ключ из веб-версии
     }
 
     try:
-        resp = requests.get(url, params=params, headers=HEADERS, timeout=10)
+        resp = requests.get(api_url, params=params, headers=HEADERS, timeout=10)
         data = resp.json()
 
         items = data.get('result', {}).get('items', [])
@@ -180,32 +180,56 @@ def search_2gis_api(city: str, query: str) -> list:
 
         for item in items:
             name = item.get('name', '')
+            item_id = item.get('id', '')
 
-            # Извлекаем телефон
+            # Извлекаем контакты
             phone = None
+            socials = []
+            has_website = False
+
             contacts = item.get('contact_groups', [])
             for group in contacts:
                 for contact in group.get('contacts', []):
-                    if contact.get('type') == 'phone':
-                        phone = contact.get('value')
-                        break
-                if phone:
-                    break
+                    contact_type = contact.get('type', '')
+                    contact_value = contact.get('value', '')
 
-            # Проверяем сайт
-            has_website = False
-            for group in contacts:
-                for contact in group.get('contacts', []):
-                    if contact.get('type') == 'website':
-                        url = contact.get('value', '').lower()
-                        if 'vk.com' not in url and 'instagram' not in url:
+                    # Телефон
+                    if contact_type == 'phone' and not phone:
+                        phone = contact_value
+
+                    # Соцсети и мессенджеры
+                    if contact_type == 'whatsapp':
+                        socials.append('WhatsApp')
+                    elif contact_type == 'telegram':
+                        socials.append('Telegram')
+                    elif contact_type == 'viber':
+                        socials.append('Viber')
+                    elif contact_type == 'vkontakte':
+                        socials.append('VK')
+                    elif contact_type == 'instagram':
+                        socials.append('Instagram')
+                    elif contact_type == 'youtube':
+                        socials.append('YouTube')
+                    elif contact_type == 'facebook':
+                        socials.append('Facebook')
+                    elif contact_type == 'odnoklassniki':
+                        socials.append('OK')
+
+                    # Проверяем сайт
+                    if contact_type == 'website':
+                        url_lower = contact_value.lower()
+                        if 'vk.com' not in url_lower and 'instagram' not in url_lower:
                             has_website = True
-                            break
+
+            # Формируем URL на 2GIS
+            url_2gis = f"https://2gis.ru/firm/{item_id}" if item_id else None
 
             if name and phone and not has_website:
                 leads.append({
                     'name': name,
                     'phone': phone,
+                    'social': ', '.join(sorted(set(socials))) if socials else None,
+                    'url_2gis': url_2gis,
                     'category': query,
                     'city': city,
                     'source': '2gis'
@@ -232,7 +256,7 @@ def save_leads(leads: list, filename: str = 'leads.csv'):
             unique.append(lead)
 
     with open(filename, 'w', newline='', encoding='utf-8') as f:
-        writer = csv.DictWriter(f, fieldnames=['name', 'phone', 'category', 'city', 'source'])
+        writer = csv.DictWriter(f, fieldnames=['name', 'phone', 'social', 'url_2gis', 'category', 'city', 'source'])
         writer.writeheader()
         writer.writerows(unique)
 

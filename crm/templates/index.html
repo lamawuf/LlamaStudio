@@ -34,10 +34,19 @@
             box-shadow: 0 10px 40px rgba(102, 126, 234, 0.2);
         }
         .status-waiting { background: #3b82f6; }
+        .status-no_answer { background: #f97316; }
         .status-callback { background: #f59e0b; }
         .status-rejected { background: #ef4444; }
         .status-working { background: #10b981; }
         .status-completed { background: #8b5cf6; }
+        .status-select {
+            appearance: none;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 500;
+        }
     </style>
 </head>
 <body class="bg-dark-900 text-white min-h-screen">
@@ -56,7 +65,7 @@
 
     <main class="max-w-7xl mx-auto p-6">
         <!-- Stats Cards -->
-        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 mb-8">
+        <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-4 mb-8">
             <div class="bg-dark-800 rounded-xl p-4 border border-dark-700 card-hover transition-all">
                 <div class="text-gray-400 text-sm mb-1">Всего</div>
                 <div class="text-3xl font-bold" id="stat-total">-</div>
@@ -64,6 +73,10 @@
             <div class="bg-dark-800 rounded-xl p-4 border border-blue-500/30 card-hover transition-all">
                 <div class="text-blue-400 text-sm mb-1">Ждёт звонка</div>
                 <div class="text-3xl font-bold text-blue-400" id="stat-waiting">-</div>
+            </div>
+            <div class="bg-dark-800 rounded-xl p-4 border border-orange-500/30 card-hover transition-all">
+                <div class="text-orange-400 text-sm mb-1">Не дозвонился</div>
+                <div class="text-3xl font-bold text-orange-400" id="stat-no_answer">-</div>
             </div>
             <div class="bg-dark-800 rounded-xl p-4 border border-yellow-500/30 card-hover transition-all">
                 <div class="text-yellow-400 text-sm mb-1">Перезвонить</div>
@@ -100,6 +113,7 @@
                 <select id="filter-status" class="bg-dark-700 border border-dark-600 rounded-lg px-4 py-2 focus:outline-none focus:border-purple-500">
                     <option value="">Все статусы</option>
                     <option value="waiting">Ждёт звонка</option>
+                    <option value="no_answer">Не дозвонился</option>
                     <option value="callback">Перезвонить</option>
                     <option value="rejected">Отказ</option>
                     <option value="working">Работаем</option>
@@ -145,6 +159,7 @@
                 <label class="block text-gray-400 text-sm mb-2">Статус</label>
                 <select id="modal-status" class="bg-dark-700 border border-dark-600 rounded-lg px-4 py-2 w-full">
                     <option value="waiting">Ждёт звонка</option>
+                    <option value="no_answer">Не дозвонился</option>
                     <option value="callback">Перезвонить</option>
                     <option value="rejected">Отказ</option>
                     <option value="working">Работаем (клиент)</option>
@@ -222,6 +237,7 @@
             const data = await res.json();
             document.getElementById('stat-total').textContent = data.total;
             document.getElementById('stat-waiting').textContent = data.waiting;
+            document.getElementById('stat-no_answer').textContent = data.no_answer;
             document.getElementById('stat-callback').textContent = data.callback;
             document.getElementById('stat-rejected').textContent = data.rejected;
             document.getElementById('stat-working').textContent = data.working;
@@ -260,14 +276,20 @@
                     <td class="p-4">${formatPhones(lead.phones)}</td>
                     <td class="p-4">${formatSocials(lead.social, lead.phones)}</td>
                     <td class="p-4">
-                        <span class="px-2 py-1 rounded text-xs font-medium status-${lead.status}">
-                            ${getStatusLabel(lead.status)}
-                        </span>
+                        <select onchange="quickUpdateStatus(${lead.id}, this.value)"
+                            class="status-select status-${lead.status} border-0 text-white">
+                            <option value="waiting" ${lead.status === 'waiting' ? 'selected' : ''}>Ждёт звонка</option>
+                            <option value="no_answer" ${lead.status === 'no_answer' ? 'selected' : ''}>Не дозвонился</option>
+                            <option value="callback" ${lead.status === 'callback' ? 'selected' : ''}>Перезвонить</option>
+                            <option value="rejected" ${lead.status === 'rejected' ? 'selected' : ''}>Отказ</option>
+                            <option value="working" ${lead.status === 'working' ? 'selected' : ''}>Работаем</option>
+                            <option value="completed" ${lead.status === 'completed' ? 'selected' : ''}>Выполнили</option>
+                        </select>
                     </td>
                     <td class="p-4">
                         <button onclick="openModal(${lead.id}, '${lead.status}', '${lead.result || ''}', '${(lead.notes || '').replace(/'/g, "\\'")}')"
                             class="bg-dark-600 hover:bg-dark-500 px-3 py-1 rounded text-sm transition-colors">
-                            Обновить
+                            Заметки
                         </button>
                     </td>
                 </tr>
@@ -277,6 +299,7 @@
         function getStatusLabel(status) {
             const labels = {
                 'waiting': 'Ждёт звонка',
+                'no_answer': 'Не дозвонился',
                 'callback': 'Перезвонить',
                 'rejected': 'Отказ',
                 'working': 'Работаем',
@@ -293,6 +316,17 @@
         }
 
         function loadAll() {
+            loadStats();
+            loadLeads();
+        }
+
+        // Quick status update from dropdown
+        async function quickUpdateStatus(leadId, newStatus) {
+            await fetch(`/api/leads/${leadId}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: newStatus })
+            });
             loadStats();
             loadLeads();
         }
