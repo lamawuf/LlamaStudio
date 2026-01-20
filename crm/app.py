@@ -288,31 +288,40 @@ ORG:{lead.name or ''}"""
 @app.route('/api/enrich')
 @requires_auth
 def enrich_socials():
-    """Обогащает лидов соцсетями из 2GIS API"""
-    import re
+    """Обогащает лидов соцсетями из 2GIS API по имени компании"""
+    import requests as req
     import time as time_module
 
     API_KEY = 'rurbbn3446'
-    HEADERS = {'User-Agent': 'Mozilla/5.0', 'Accept': 'application/json'}
 
-    def extract_firm_id(url_2gis):
-        if not url_2gis:
-            return None
-        match = re.search(r'/firm/(\d+)', url_2gis)
-        return match.group(1) if match else None
+    def search_2gis(name, city_name):
+        """Поиск компании в 2GIS и получение соцсетей"""
+        city_ids = {
+            'краснодар': 36, 'москва': 32, 'сочи': 1061,
+            'ростов-на-дону': 39, 'новороссийск': 4,
+        }
+        region_id = city_ids.get(city_name.lower() if city_name else '', 36)
 
-    def get_socials(firm_id):
-        import requests
-        url = f"https://catalog.api.2gis.com/3.0/items/byid"
-        params = {'id': firm_id, 'fields': 'items.contact_groups', 'key': API_KEY}
         try:
-            resp = requests.get(url, params=params, headers=HEADERS, timeout=10)
+            url = "https://catalog.api.2gis.com/3.0/items"
+            params = {
+                'q': name,
+                'region_id': region_id,
+                'page_size': 1,
+                'fields': 'items.contact_groups',
+                'key': API_KEY
+            }
+            resp = req.get(url, params=params, timeout=10)
             data = resp.json()
             items = data.get('result', {}).get('items', [])
             if not items:
-                return None
+                return None, None
+
+            item = items[0]
+            item_id = item.get('id', '')
             socials = []
-            for group in items[0].get('contact_groups', []):
+
+            for group in item.get('contact_groups', []):
                 for contact in group.get('contacts', []):
                     t = contact.get('type', '')
                     if t == 'whatsapp': socials.append('WhatsApp')
@@ -320,31 +329,34 @@ def enrich_socials():
                     elif t == 'viber': socials.append('Viber')
                     elif t == 'vkontakte': socials.append('VK')
                     elif t == 'instagram': socials.append('Instagram')
-            return ', '.join(sorted(set(socials))) if socials else None
-        except:
-            return None
 
-    # Получаем лидов без соцсетей но с url_2gis
+            url_2gis = f"https://2gis.ru/firm/{item_id}" if item_id else None
+            social_str = ', '.join(sorted(set(socials))) if socials else None
+            return social_str, url_2gis
+        except Exception as e:
+            return None, None
+
+    # Получаем лидов без соцсетей
     leads = Lead.query.filter(
-        Lead.url_2gis.isnot(None),
         (Lead.social.is_(None) | (Lead.social == ''))
-    ).limit(100).all()  # Лимит чтобы не таймаутнуться
+    ).limit(50).all()
 
     updated = 0
     for lead in leads:
-        firm_id = extract_firm_id(lead.url_2gis)
-        if not firm_id:
-            continue
-        social = get_socials(firm_id)
+        city_name = lead.city.name if lead.city else 'Краснодар'
+        social, url_2gis = search_2gis(lead.name, city_name)
+
         if social:
             lead.social = social
+            if url_2gis and not lead.url_2gis:
+                lead.url_2gis = url_2gis
             updated += 1
-        time_module.sleep(0.3)  # Не спамим API
+
+        time_module.sleep(0.4)
 
     db.session.commit()
 
     remaining = Lead.query.filter(
-        Lead.url_2gis.isnot(None),
         (Lead.social.is_(None) | (Lead.social == ''))
     ).count()
 
