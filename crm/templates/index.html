@@ -279,7 +279,7 @@
                         <div class="font-medium">${lead.name}</div>
                         ${lead.url_2gis ? `<a href="${lead.url_2gis}" target="_blank" class="text-sm text-purple-400 hover:underline">📍 2GIS</a>` : ''}
                     </td>
-                    <td class="p-4">${formatPhones(lead.phones)}</td>
+                    <td class="p-4">${formatPhones(lead.phones, lead.contact_phone)}</td>
                     <td class="p-4">${formatSocials(lead.social, lead.phones)}</td>
                     <td class="p-4">
                         <select onchange="quickUpdateStatus(${lead.id}, this.value)"
@@ -314,11 +314,23 @@
             return labels[status] || status;
         }
 
-        function formatPhones(phones) {
-            if (!phones) return '<span class="text-gray-500">-</span>';
-            return phones.split(',').map(p => p.trim()).filter(p => p).map(phone =>
-                `<a href="tel:${phone}" class="text-blue-400 hover:underline font-mono block" onclick="event.stopPropagation(); navigator.clipboard.writeText('${phone}')">${phone}</a>`
-            ).join('');
+        function formatPhones(phones, contactPhone) {
+            let html = '';
+
+            // Если есть номер ЛПР - показываем его первым
+            if (contactPhone) {
+                html += `<a href="tel:${contactPhone}" class="text-green-400 hover:underline font-mono block font-bold" onclick="event.stopPropagation(); navigator.clipboard.writeText('${contactPhone}')">👔 ${contactPhone}</a>`;
+            }
+
+            // Основные номера
+            if (phones) {
+                const phoneList = phones.split(',').map(p => p.trim()).filter(p => p);
+                html += phoneList.map(phone =>
+                    `<a href="tel:${phone}" class="text-blue-400 hover:underline font-mono block ${contactPhone ? 'text-xs opacity-70' : ''}" onclick="event.stopPropagation(); navigator.clipboard.writeText('${phone}')">${phone}</a>`
+                ).join('');
+            }
+
+            return html || '<span class="text-gray-500">-</span>';
         }
 
         function loadAll() {
