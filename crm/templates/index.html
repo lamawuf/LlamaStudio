@@ -169,7 +169,7 @@
 
             <div class="mb-4">
                 <label class="block text-gray-400 text-sm mb-2">Результат звонка</label>
-                <select id="modal-result" class="bg-dark-700 border border-dark-600 rounded-lg px-4 py-2 w-full">
+                <select id="modal-result" class="bg-dark-700 border border-dark-600 rounded-lg px-4 py-2 w-full" onchange="syncStatusFromResult(this.value)">
                     <option value="">-</option>
                     <option value="no_answer">Не ответил</option>
                     <option value="callback">Перезвонить</option>
@@ -338,22 +338,30 @@
             loadLeads();
         }
 
-        // Quick status update from dropdown
-        async function quickUpdateStatus(leadId, newStatus, selectEl) {
-            // Меняем цвет сразу
+        // Quick status update from dropdown - НИЧЕГО не перезагружаем
+        function quickUpdateStatus(leadId, newStatus, selectEl) {
             selectEl.className = `status-select status-${newStatus} border-0 text-white`;
+            fetch(`/api/leads/${leadId}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ status: newStatus })
+            });
+        }
 
-            try {
-                const res = await fetch(`/api/leads/${leadId}`, {
-                    method: 'PATCH',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ status: newStatus })
-                });
-                if (res.ok) {
-                    loadStats(); // Обновляем только статистику
-                }
-            } catch(e) {
-                console.error('Ошибка:', e);
+        // Автоматически меняем статус по результату звонка
+        function syncStatusFromResult(result) {
+            const statusMap = {
+                'no_answer': 'no_answer',
+                'callback': 'callback',
+                'thinking': 'callback',
+                'send_price': 'callback',
+                'meeting': 'working',
+                'deal': 'working',
+                'not_interested': 'rejected',
+                'has_site': 'rejected'
+            };
+            if (statusMap[result]) {
+                document.getElementById('modal-status').value = statusMap[result];
             }
         }
 
