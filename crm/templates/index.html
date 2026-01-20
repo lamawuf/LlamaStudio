@@ -282,7 +282,7 @@
                     <td class="p-4">${formatPhones(lead.phones, lead.contact_phone)}</td>
                     <td class="p-4">${formatSocials(lead.social, lead.phones)}</td>
                     <td class="p-4">
-                        <select onchange="quickUpdateStatus(${lead.id}, this.value, this)"
+                        <select onchange="event.stopPropagation(); quickUpdateStatus(${lead.id}, this.value, this); return false;"
                             class="status-select status-${lead.status} border-0 text-white">
                             <option value="waiting" ${lead.status === 'waiting' ? 'selected' : ''}>Ждёт звонка</option>
                             <option value="no_answer" ${lead.status === 'no_answer' ? 'selected' : ''}>Не дозвонился</option>
