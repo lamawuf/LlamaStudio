@@ -79,6 +79,9 @@ def merge_csvs():
 
                 firm_id = extract_firm_id(url)
 
+                # Город из CSV
+                city = row.get('city', '').strip()
+
                 if firm_id:
                     # Компания с 2GIS URL
                     if firm_id in companies:
@@ -94,7 +97,8 @@ def merge_csvs():
                             'name': name,
                             'phones': phone,
                             'social': social,
-                            'url_2gis': url
+                            'url_2gis': url,
+                            'city': city
                         }
                 else:
                     # Компания без URL - группируем по имени
@@ -107,7 +111,8 @@ def merge_csvs():
                             'name': name,
                             'phones': phone,
                             'social': social,
-                            'url_2gis': ''
+                            'url_2gis': '',
+                            'city': city
                         }
 
     # Объединяем результаты
@@ -120,7 +125,7 @@ def merge_csvs():
     output_file = "/Users/lama/Downloads/Apps/LlamaStudio/crm/leads_master.csv"
 
     with open(output_file, 'w', encoding='utf-8', newline='') as f:
-        writer = csv.DictWriter(f, fieldnames=['name', 'phones', 'social', 'url_2gis'])
+        writer = csv.DictWriter(f, fieldnames=['name', 'phones', 'social', 'url_2gis', 'city'])
         writer.writeheader()
         writer.writerows(all_companies)
 

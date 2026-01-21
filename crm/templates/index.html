@@ -136,6 +136,7 @@
                 <thead class="bg-dark-700">
                     <tr>
                         <th class="text-left p-4 text-gray-400 font-medium">Компания</th>
+                        <th class="text-left p-4 text-gray-400 font-medium">Город</th>
                         <th class="text-left p-4 text-gray-400 font-medium">Телефон</th>
                         <th class="text-left p-4 text-gray-400 font-medium">Соцсети</th>
                         <th class="text-left p-4 text-gray-400 font-medium">Статус</th>
@@ -143,7 +144,7 @@
                     </tr>
                 </thead>
                 <tbody id="leads-table">
-                    <tr><td colspan="5" class="p-8 text-center text-gray-500">Загрузка...</td></tr>
+                    <tr><td colspan="6" class="p-8 text-center text-gray-500">Загрузка...</td></tr>
                 </tbody>
             </table>
         </div>
@@ -269,7 +270,7 @@
             const tbody = document.getElementById('leads-table');
 
             if (leads.length === 0) {
-                tbody.innerHTML = '<tr><td colspan="5" class="p-8 text-center text-gray-500">Нет лидов</td></tr>';
+                tbody.innerHTML = '<tr><td colspan="6" class="p-8 text-center text-gray-500">Нет лидов</td></tr>';
                 return;
             }
 
@@ -279,6 +280,7 @@
                         <div class="font-medium">${lead.name}</div>
                         ${lead.url_2gis ? `<a href="${lead.url_2gis}" target="_blank" class="text-sm text-purple-400 hover:underline">📍 2GIS</a>` : ''}
                     </td>
+                    <td class="p-4 text-gray-300">${lead.city || '-'}</td>
                     <td class="p-4">${formatPhones(lead.phones, lead.contact_phone)}</td>
                     <td class="p-4">${formatSocials(lead.social, lead.phones)}</td>
                     <td class="p-4">
